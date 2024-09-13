@@ -60,7 +60,7 @@ CREATE TABLE rawDataEngines_nostrRelays(
   url TEXT NOT NULL,
 );
 
-INSERT INTO rawDataEngines_nostrRelays [(rawDataTypeID, name)] VALUES (0, "cloudfodder's Awesome Relay", "wss://brainstorm.nostr1.com");
+INSERT INTO rawDataEngines_nostrRelays [(rawDataTypeID, name)] VALUES (0, "cloudfodder's Awesome Grapevine Relay", "wss://brainstorm.nostr1.com");
 
 -- table4
 CREATE TABLE interpretationProtocols(
