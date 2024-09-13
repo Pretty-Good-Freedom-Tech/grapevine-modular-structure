@@ -3,8 +3,8 @@
 ## Modules and APIs
 
 The Grapevine is divided into 4 categories of modules and three categories of APIs.
-- Raw Data Engine (e.g., a nostr relay)
-- Interpretation Engine (maybe a DVM
+- Raw Data Source (e.g., a nostr relay) -- this is completely external to the Grapevine
+- Interpretation Engine (maybe a DVM)
 - Calculation Engine (back end to the UX front end)
 - the Grapevine front end
 
