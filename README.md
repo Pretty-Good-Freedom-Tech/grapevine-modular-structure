@@ -36,7 +36,7 @@ The Interpretation Engine may operate as a DVM.
 
 This receives GrapeRank-formatted Ratings from Interpretation Engines and runs the GrapeRank equation to produce GrapeRank Scorecards. It stores Ratings, Scorecards, and individual user settings (several categories of parameters).
 
-See [SQLite code](./init-calculation-engine-db.sql) to initialize database.
+See [SQLite db structure](./calculation-engine-db.md) for organization of database including code for initialization.
 
 ### Module type 4: Front End
 
