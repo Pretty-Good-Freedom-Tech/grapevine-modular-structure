@@ -5,20 +5,22 @@ MAIN DATABASE: GrapevineCalculationEngine.db
 
 ONE SET OF TABLES PER ENGINE:
 
-table1: Raw Data types (nostr, AI, Amazon, etc) rawDataTypes -- rawDataTypes
-table2: Interp Engines for each raw data type -- interpretationEngines
-table3: raw data Engine for each type  -- rawDataEngines
+table1: Raw Data Source Categories (e.g. nostr relay, AI, Amazon, etc) rawDataTypes -- rawDataSourceCategories
+table2: Raw Data Sources (e.g. wss://brainstorm.nostr1,com)  -- rawDataSources
+table3: Interp Engines for each raw data type -- interpretationEngines
 table4: available interpretation protocols for each Interp Engine -- interpretationProtocols
 table5: users (customers) -- users
 
 for each new user, make a new database:
 SINGLE USER DATABASE: <pk_Alice>_GCE.db
 
-userTable1: GrapeRank Ratings (R) -- grapeRankRatings
-userTable2: GrapeRank Scorecards (G) -- grapeRankScorecards
+userTable1: GrapeRank Ratings (r) -- grapeRankRatings
+userTable1b: GrapeRank Rating Table (R) -- grapeRankRatingTables
+userTable2: GrapeRank Scorecards (S) -- grapeRankScorecards
+userTable2b: GrapeRank Scorecards (G) -- grapeRankScorecardTables
 userTable3: standard Grapevine Calculation Parameters (attenFactor, rigor, defaults (?), etc) -- grapevineCalculationParams
 userTable4: protocol-specific parameters (score, confidence, etc) -- protocolParams
-userTable4: worldviews Grapevine Worldview tables
+userTable5: Grapevine Worldview tables -- worldviews
 
 */
 
@@ -28,48 +30,94 @@ userTable4: worldviews Grapevine Worldview tables
 GrapevineCalculationEngine.db
 
 -- table1
-CREATE TABLE rawDataTypes(
+CREATE TABLE rawDataSourceCategories(
   ID INT PRIMARY KEY NOT NULL,
   SLUG TEXT NOT NULL,
   NAME TEXT NOT NULL,
+  -- ?? rawDataSourceTable TEXT NOT NULL,
   DESCRIPTION TEXT,
 );
 
-INSERT INTO rawDataTypes [(slug, name, description)] VALUES ("nostrRelay", "nostr relay", "lorem ipsum"); -- id: 0
-INSERT INTO rawDataTypes [(slug, name, description)] VALUES ("chatGPT", "Chat GPT", "lorem ipsum"); -- id: 1
-INSERT INTO rawDataTypes [(slug, name, description)] VALUES ("Amazon", "Amazon", "lorem ipsum"); -- id: 2
+INSERT INTO rawDataSourceCategories [(slug, name, rawDataSourceTable, description)] VALUES ("nostrRelay", "nostr relay", "rawDataSources_nostrRelays", "lorem ipsum"); -- id: 0
+INSERT INTO rawDataSourceCategories [(slug, name, rawDataSourceTable, description)] VALUES ("chatGPT", "Chat GPT", "rawDataSources_chatGPT", "lorem ipsum"); -- id: 1
+INSERT INTO rawDataSourceCategories [(slug, name, rawDataSourceTable, description)] VALUES ("Amazon", "Amazon", "rawDataSources_Amazon", "lorem ipsum"); -- id: 2
 
+/* table2 MIGHT BELONG INSIDE THE INTERPRETATION ENGINE, BC IT'S STRUCTURE WILL DEPEND ON THE RAW DATA TYPE. */
 -- table2
-CREATE TABLE interpretationEngines(
+CREATE TABLE rawDataSources_nostrRelays(
   ID INT PRIMARY KEY NOT NULL,
-  rawDataTypeID INT NOT NULL,
-  slug TEXT NOT NULL,
-  name TEXT NOT NULL,
-  description TEXT,
-);
-
-INSERT INTO interpretationEngines [(rawDataTypeID, slug, name)] VALUES (0, "ManiMeNostrInterpEngine", "ManiMe's Awesome Nostr Interpretation Engine");
-
-/* table3 MIGHT BELONG INSIDE THE INTERPRETATION ENGINE, BC IT'S STRUCTURE WILL DEPEND ON THE RAW DATA TYPE. */
--- table3
-CREATE TABLE rawDataEngines_nostrRelays(
-  ID INT PRIMARY KEY NOT NULL,
-  rawDataTypeID INT NOT NULL,
+  -- rawDataSourceCategoryID INT NOT NULL,
   slug TEXT NOT NULL,
   name TEXT NOT NULL,
   url TEXT NOT NULL,
+  supportedProtocols TEXT, -- a stringified array of protocolSlugs
+);
+/*
+May also want other columns like: uptime or other performance measures, free vs paid, etc)
+*/
+
+INSERT INTO rawDataSources_nostrRelays [(name, url)] VALUES ("cloudfodder's Awesome Grapevine Relay", "wss://brainstorm.nostr1.com");
+
+-- table3
+CREATE TABLE interpretationEngines(
+  ID INT PRIMARY KEY NOT NULL,
+  rawDataSourceCategories INT NOT NULL,
+  slug TEXT NOT NULL,
+  name TEXT NOT NULL,
+  description TEXT,
+  supportedProtocols TEXT NOT NULL,
 );
 
-INSERT INTO rawDataEngines_nostrRelays [(rawDataTypeID, name)] VALUES (0, "cloudfodder's Awesome Grapevine Relay", "wss://brainstorm.nostr1.com");
+INSERT INTO interpretationEngines [(rawDataSourceCategories, slug, name)] VALUES (0, "ManiMeNostrInterpEngine", "ManiMe's Awesome Nostr Interpretation Engine");
 
--- table4
+-- table4a
 CREATE TABLE interpretationProtocols(
   ID INT PRIMARY KEY NOT NULL,
+  rawDataSourceCategories INT NOT NULL,
+  slug TEXT NOT NULL,
+  name TEXT NOT NULL,
+  description TEXT,
+  parameterSchema TEXT NOT NULL, -- naddr pointer to a JSON Schema which specifies the required parameters
 );
+
+INSERT INTO interpretationProtocols [(rawDataSourceCategories, name)] VALUES (0, "Follows Interpretation"); -- params required fields: score, confidence
+INSERT INTO interpretationProtocols [(rawDataSourceCategories, name)] VALUES (1, "Mutes Interpretation"); -- params required fields: score, confidence
+INSERT INTO interpretationProtocols [(rawDataSourceCategories, name)] VALUES (2, "Standard Reports Interpretation"); -- params required fields: score, confidence (all reportTypes are treated the same)
+INSERT INTO interpretationProtocols [(rawDataSourceCategories, name)] VALUES (3, "Expanded Reports Interpretation"); -- params score & confidence; can vary according to reportType
+
+-- table4b
+CREATE TABLE defaultInterpretationProtocolSolutions(
+  ID INT PRIMARY KEY NOT NULL,
+  interpretationProtocolId INT NOT NULL,
+  slug TEXT NOT NULL,
+  name TEXT NOT NULL,
+  description TEXT,
+  parameterSchema TEXT NOT NULL, -- naddr pointer to a JSON Schema which specifies the required parameters
+);
+
+INSERT INTO defaultInterpretationProtocolSolutions [(interpretationProtocolId, name)] VALUES (0, "Standard Brainstorm Follows Interpretation"); -- params: score = 1, confidence = 0.05
+INSERT INTO defaultInterpretationProtocolSolutions [(interpretationProtocolId, name)] VALUES (1, "Standard Brainstorm Mutes Interpretation"); -- params: score = 0, confidence = 0.1
+INSERT INTO defaultInterpretationProtocolSolutions [(interpretationProtocolId, name)] VALUES (2, "Standard Brainstorm Reports Interpretation"); -- params: score = 0, confidence = 0.2 regardless of reportType
+INSERT INTO defaultInterpretationProtocolSolutions [(interpretationProtocolId, name)] VALUES (3, "Alternate Brainstorm Reports Interpretation"); -- params: score = 0, confidence = 0.2 for all reportTypes except nudity, which is ignored
+
+-- table4c
+CREATE TABLE userInterpretationProtocolSolutions(
+  ID INT PRIMARY KEY NOT NULL,
+  interpretationProtocolId INT NOT NULL,
+  userId INT NOT NULL,
+  slug TEXT NOT NULL,
+  name TEXT NOT NULL,
+  description TEXT,
+  parameterSchema TEXT NOT NULL, -- naddr pointer to a JSON Schema which specifies the required parameters
+);
+
+INSERT INTO userInterpretationProtocolSolutions [(interpretationProtocolId, userId, name)] VALUES (0, AlicdId, "My Usual Brainstorm Follows Interpretation"); -- params: score = 1, confidence = 0.05
+INSERT INTO userInterpretationProtocolSolutions [(interpretationProtocolId, userId, name)] VALUES (0, AlicdId, "My Alternate Brainstorm Follows Interpretation"); -- params: score = 1, confidence = 0.08
 
 -- table5
 CREATE TABLE users(
   ID INT PRIMARY KEY NOT NULL,
+  pubkey TEXT NOT NULL,
 );
 
 ------------- ONE DATABASE PER USER, 4 tables
@@ -127,9 +175,44 @@ CREATE TABLE grapevineCalculationParams(
   ID INT PRIMARY KEY NOT NULL,
 );
 
--- userTable4
-CREATE TABLE protocolParams(
+-- userTable4_0; for protocol with Id = 0
+CREATE TABLE protocol0Params(
   ID INT PRIMARY KEY NOT NULL,
+  userId INT NOT NULL,
+  params TEXT NOT NULL
 );
+/*
+This table stores the preferred parameters for any given protocol for any given user
+*/
+
+-- userTable5
+CREATE TABLE worldviews(
+  ID INT PRIMARY KEY NOT NULL,
+  slug TEXT NOT NULL,
+  name TEXT NOT NULL,
+  description TEXT,
+  nodes TEXT NOT NULL, -- a stringified array of nodes (by worldviewNodes ID)
+  edges TEXT NOT NULL, -- a stringified array of edges (by worldviewEdges ID)
+);
+
+-- userTable5a
+CREATE TABLE worldviewNodes(
+  ID INT PRIMARY KEY NOT NULL,
+  slug TEXT NOT NULL,
+  name TEXT NOT NULL,
+  description TEXT,
+);
+
+-- userTable5b
+CREATE TABLE worldviewEdges(
+  ID INT PRIMARY KEY NOT NULL,
+  node_start INT NOT NULL, -- a stringified array of nodes
+  node_end INT NOT NULL, -- a stringified array of edges
+  grapeRankRatingsSpecificationType TEXT NOT NULL, -- query or dataset
+  grapeRankRatingsQuery TEXT NOT NULL, -- a query of the Ratings database (which will be variable)
+  grapeRankRatingsDataset TEXT NOT NULL, -- a fixed list of Ratings (by rating id)?
+  grapeRankCalculationParamSpecs TEXT NOT NULL, -- stringified JSON; specify attenuationFactor, rigor, etc.
+);
+
 
 
