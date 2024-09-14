@@ -11,17 +11,6 @@ table3: Interp Engines for each raw data type -- interpretationEngines
 table4: available interpretation protocols for each Interp Engine -- interpretationProtocols
 table5: users (customers) -- users
 
-for each new user, make a new database:
-SINGLE USER DATABASE: <pk_Alice>_GCE.db
-
-userTable1: GrapeRank Ratings (r) -- grapeRankRatings
-userTable1b: GrapeRank Rating Table (R) -- grapeRankRatingTables
-userTable2: GrapeRank Scorecards (S) -- grapeRankScorecards
-userTable2b: GrapeRank Scorecards (G) -- grapeRankScorecardTables
-userTable3: standard Grapevine Calculation Parameters (attenFactor, rigor, defaults (?), etc) -- grapevineCalculationParams
-userTable4: protocol-specific parameters (score, confidence, etc) -- protocolParams
-userTable5: Grapevine Worldview tables -- worldviews
-
 */
 
 ----------------- MAIN DATABASE, 5 tables
