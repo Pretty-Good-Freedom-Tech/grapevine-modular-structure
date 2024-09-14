@@ -62,6 +62,10 @@ CREATE TABLE interpretationProtocols(
   aSupportedRawDataSourceCategorySlugs TEXT NOT NULL, -- a stringified array of rawDataSourceCategorySlugs pointing to coreTable2, rawDataSourceCategories.slug (alternate: id instead of slug)
 );
 
+-- universal (rawDataSourceCategorySlug is null or "all" or "GrapeRank")
+-- DEPRECATING INSERT INTO interpretationProtocols [(slug, name, rawDataSourceCategorySlug )] VALUES ("grapeRank", "GrapeRank", "grapeRank" );
+
+-- specific to rawDataSourceCategorySlug
 INSERT INTO interpretationProtocols [(slug, name, rawDataSourceCategorySlug )] VALUES ("basicFollowsInterpretation", "the Standard Follows Interpretation", "nostr" );
 INSERT INTO interpretationProtocols [(slug, name, rawDataSourceCategorySlug )] VALUES ("basicMutesInterpretation", "the Standard Mutes Interpretation", "nostr" );
 INSERT INTO interpretationProtocols [(slug, name, rawDataSourceCategorySlug )] VALUES ("basicReportsInterpretation", "the Standard Reports Interpretation", "nostr" );
@@ -70,6 +74,28 @@ INSERT INTO interpretationProtocols [(slug, name, rawDataSourceCategorySlug )] V
 INSERT INTO interpretationProtocols [(slug, name, rawDataSourceCategorySlug )] VALUES ("standardGrapevineNetworkInterpretation", "the Standard Grapevine Network Interpretation", "nostr" ); -- this is a combo of follows, mutes, and reports all in one
 
 INSERT INTO interpretationProtocols [(slug, name, rawDataSourceCategorySlug )] VALUES ("basicAmazonInterpretation", "Amazon Product Ratings Interpretation", "Amazon" );
+
+-- coreTable6
+CREATE TABLE grapeRankProtocols(
+  ID INT PRIMARY KEY NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
+  name TEXT NOT NULL,
+  description TEXT,
+  
+  -- nostr-specific columns
+  parametersSchema TEXT NOT NULL, -- stringified JSON schema (json-schema.org) template for all required and optional parameters, which may be very different for each protocol. This may or may not include default values.
+  
+  -- ALTERNATE to parametersSchema:
+  parametersSchemaNaddr TEXT NOT NULL, -- naddr to an event with the JSON Schema, managed by Brainstorm. Advantage: multiple (competing) services can point to this naddr and ensure compatibility with the wider community
+);
+
+INSERT INTO grapeRankProtocols [(slug, parametersSchema )] VALUES ("basicGrapevineNetwork", "{ properties: { attenuation: { type: float, min: 0, max: 1, default: 0.8 }, rigor: { type: float, min: 0, max: 1, default: 0.25 }, defaultUserScore: { type: float, min: 0, max: 1, default: 0.0 }, defaultUserScoreConfidence: { type: float, min: 0, max: 1, default: 0.01} } }" );
+INSERT INTO grapeRankProtocols [(slug, parametersSchema )] VALUES ("basic5StarProductCalculation", "{ properties: { defaultProductScore: { type: float, min: 0, max: 5, default: 0.0 }, defaultProductScoreConfidence: { type: float, min: 0, max: 1, default: 0.05 } }}" );
+
+/*
+"{ attenuation: 0.8, rigor: 0.25, defaultUserScore: 0, defaultUserScoreConfidence: 0.01 }"
+"{ defaultProductScore: 0, defaultProductScoreConfidence: 0.05 }"
+*/
 
 /***************
 initialization code for rawDataSourceCategory = nostrRelays:
