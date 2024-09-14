@@ -5,30 +5,32 @@
 CREATE CORE DATABASE: GrapevineCalculationEngine_core.db
 
 - coreTable1: users -- all customers for this service (free and paying)
-- coreTable2: rawDataSourceCategories -- Raw Data Source Categories (e.g. nostrRelays, chatGPT, Amazon, etc)
-- coreTable3: rawDataSources
+- coreTable2: rawDataSourceCategories (e.g. nostrRelays, AI, eCommerce, socialMedia, etc)
+- coreTable3: rawDataSources (e.g. wss://grapevine.nostr1.com, chatGPT, Amazon, Twitter, etc)
 - coreTable4: interpretationEngines
 - coreTable5: interpretationProtocols
 
-FOR EACH ROW IN coreTable2, THERE WILL BE AN ADDITIONAL coreTable3_j, coreTable4_j, and coreTable5_j, where j = rawDataSourceCategoryID or rawDataSourceCategorySlug
+FOR EACH ROW j IN coreTable2, THERE WILL BE AN ADDITIONAL coreTable3_j, coreTable4_j, and coreTable5_j, where j = rawDataSourceCategoryID or rawDataSourceCategorySlug
+
+We will only build out in detail for j = nostrRelays for now.
 
 Raw Data Sources
 - coreTable3_j: rawDataSourcesForCategory_j -- each supported rawDataSourceCategory will have its own table of supported Raw Data Sources
 Examples:
-- coreTable3_nostr: rawDataSourcesForCategory_nostr (e.g. wss://brainstorm.nostr1.com)
-- coreTable3_chatGPT: rawDataSourcesForCategory_chatGPT
+- coreTable3_nostrRelays: rawDataSourcesForCategory_nostr (e.g. wss://brainstorm.nostr1.com)
+- coreTable3_AI: rawDataSourcesForCategory_AI
 
 Interpretation Engines
-- coreTable4_j: interpretationEnginesForCategory_j -- Interp Engines for an individual raw data type
+- coreTable4_j: interpretationEnginesForCategory_j -- Interp Engines for an individual rawDataSourceCategory
 Examples:
-- coreTable4_nostr: interpretationEnginesForCategory_nostr
-- coreTable4_chatGPT: interpretationEnginesForCategory_chatGPT
+- coreTable4_nostrRelays: interpretationEnginesForCategory_nostrRelays
+- coreTable4_AI: interpretationEnginesForCategory_AI
 
 Interpretation Protocols
-- coreTable5_j: interpretationProtocolsForCategory_j -- available interpretation protocols for each Interp Engine
+- coreTable5_j: interpretationProtocolsForCategory_j -- available interpretation protocols for each rawDataSourceCategory (& for each Interp Engine)
 Examples:
-- coreTable5_nostr: interpretationProtocolsForCategory_nostr
-- coreTable5_chatGPT: interpretationProtocolsForCategory_chatGPT
+- coreTable5_nostrRelays: interpretationProtocolsForCategory_nostrRelays
+- coreTable5_AI: interpretationProtocolsForCategory_AI
 
 initialization code: [SQLite](./init-calculation-engine-main-db.sql)
 
