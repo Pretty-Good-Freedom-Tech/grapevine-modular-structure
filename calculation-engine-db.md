@@ -10,6 +10,8 @@ CREATE CORE DATABASE: GrapevineCalculationEngine_core.db
 - coreTable4: interpretationEngines
 - coreTable5: interpretationProtocols
 
+initialization code for the above: [SQLite](./init-calculation-engine-main-db.sql)
+
 FOR EACH ROW j IN coreTable2, THERE WILL BE AN ADDITIONAL coreTable3_j, coreTable4_j, and coreTable5_j, where j = rawDataSourceCategoryID or rawDataSourceCategorySlug
 
 We will only build out in detail for j = nostrRelays for now.
@@ -32,7 +34,9 @@ Examples:
 - coreTable5_nostrRelays: interpretationProtocolsForCategory_nostrRelays
 - coreTable5_AI: interpretationProtocolsForCategory_AI
 
-initialization code: [SQLite](./init-calculation-engine-main-db.sql)
+initialization code for rawDataSourceCategory = nostrRelays: [SQLite](./init-calculation-engine-main-db.sql)
+
+initialization code for rawDataSourceCategory = AI: [SQLite](./init-calculation-engine-main-db.sql)
 
 ## NEW DATABASE FOR EACH CUSTOMER / USER
 
