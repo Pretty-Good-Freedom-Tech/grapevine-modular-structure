@@ -7,6 +7,7 @@ CREATE TABLE users(
   ID INT PRIMARY KEY NOT NULL,
   pubkey TEXT UNIQUE NOT NULL,
   whenSignedUp TIMESTAMP NOT NULL,
+  grapeRankCalculationProtocolCustomizations TEXT, -- stringified JSON with user's preferred parameters, eg attentuation = 0.75; must validate against the relevant JSON Schema; 
   subscriptionPlan TEXT NOT NULL, -- will need to flesh out later what this means
 );
 
@@ -107,6 +108,7 @@ CREATE TABLE interpretationProtocols_nostr(
 
   -- nostr-specific columns
   parametersSchema TEXT NOT NULL, -- stringified JSON schema (json-schema.org) template for all required and optional parameters, which may be very different for each protocol. This may or may not include default values.
+  
   -- ALTERNATE to parametersSchema:
   parametersSchemaNaddr TEXT NOT NULL, -- naddr to an event with the JSON Schema, managed by Brainstorm. Advantage: multiple (competing) services can point to this naddr and ensure compatibility with the wider community
 );
