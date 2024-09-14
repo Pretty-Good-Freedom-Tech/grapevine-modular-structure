@@ -39,13 +39,15 @@ CREATE TABLE interpretationEngines(
   slug TEXT UNIQUE NOT NULL,
   name TEXT NOT NULL,
   description TEXT,  
-  aSupportedRawDataSourceCategorySlugs TEXT NOT NULL, -- a stringified array of rawDataSourceCategorySlugs pointing to coreTable2, rawDataSourceCategories.slug (alternate: id instead of slug)
-
-  -- should this be removed and placed in the coreTable4_j ?
+  rawDataSourceCategorySlug TEXT NOT NULL, -- points to coreTable2, rawDataSourceCategories.slug (alternate: rawDataSourceCategoryID INT NOT NULL, points to rawDataSourceCategories.id)
+  
+  -- DEPRECATED: moved to coreTable4_j
   aSupportedInterpretationProtocolSlugs TEXT NOT NULL, -- a stringified array of interpretationProtocolSlugs
+  -- DEPRECATED: changed to single value
+  aSupportedRawDataSourceCategorySlugs TEXT NOT NULL, -- a stringified array of rawDataSourceCategorySlugs pointing to coreTable2, rawDataSourceCategories.slug (alternate: id instead of slug)
 );
 
-INSERT INTO interpretationEngines [(slug, name, aSupportedRawDataSourceCategorySlugs, aSupportedInterpretationProtocolSlugs )] VALUES ("BrainstormNostrInterpEngine", "The Awesome Brainstorm Nostr Interpretation Engine", [ "nostr" ], [] );
+INSERT INTO interpretationEngines [(slug, name, rawDataSourceCategorySlug )] VALUES ("BrainstormNostrInterpEngine", "The Awesome Brainstorm Nostr Interpretation Engine", "nostr" );
 
 -- coreTable5
 CREATE TABLE interpretationProtocols(
@@ -53,19 +55,20 @@ CREATE TABLE interpretationProtocols(
   slug TEXT UNIQUE NOT NULL,
   name TEXT NOT NULL,
   description TEXT,
+  rawDataSourceCategorySlug TEXT NOT NULL, -- points to coreTable2, rawDataSourceCategories.slug (alternate: rawDataSourceCategoryID INT NOT NULL, points to rawDataSourceCategories.id)
+
+  -- DEPRECATED: 
   aSupportedRawDataSourceCategorySlugs TEXT NOT NULL, -- a stringified array of rawDataSourceCategorySlugs pointing to coreTable2, rawDataSourceCategories.slug (alternate: id instead of slug)
-  
-  rawDataSourceCategories INT NOT NULL,
-  parameterSchema TEXT NOT NULL, -- naddr pointer to a JSON Schema which specifies the required parameters
 );
 
-INSERT INTO interpretationProtocols [(slug, name, aSupportedRawDataSourceCategorySlugs )] VALUES ("basicFollowsInterpretation", "the Standard Follows Interpretation", [ "nostr" ] );
-INSERT INTO interpretationProtocols [(slug, name, aSupportedRawDataSourceCategorySlugs )] VALUES ("basicMutesInterpretation", "the Standard Mutes Interpretation", [ "nostr" ] );
-INSERT INTO interpretationProtocols [(slug, name, aSupportedRawDataSourceCategorySlugs )] VALUES ("basicReportsInterpretation", "the Standard Reports Interpretation", [ "nostr" ] );
-INSERT INTO interpretationProtocols [(slug, name, aSupportedRawDataSourceCategorySlugs )] VALUES ("expandedReportsInterpretation", "the Expanded Reports Interpretation", [ "nostr" ] );
+INSERT INTO interpretationProtocols [(slug, name, rawDataSourceCategorySlug )] VALUES ("basicFollowsInterpretation", "the Standard Follows Interpretation", "nostr" );
+INSERT INTO interpretationProtocols [(slug, name, rawDataSourceCategorySlug )] VALUES ("basicMutesInterpretation", "the Standard Mutes Interpretation", "nostr" );
+INSERT INTO interpretationProtocols [(slug, name, rawDataSourceCategorySlug )] VALUES ("basicReportsInterpretation", "the Standard Reports Interpretation", "nostr" );
+INSERT INTO interpretationProtocols [(slug, name, rawDataSourceCategorySlug )] VALUES ("expandedReportsInterpretation", "the Expanded Reports Interpretation", "nostr" );
 
+INSERT INTO interpretationProtocols [(slug, name, rawDataSourceCategorySlug )] VALUES ("standardGrapevineNetworkInterpretation", "the Standard Grapevine Network Interpretation", "nostr" ); -- this is a combo of follows, mutes, and reports all in one
 
-
+INSERT INTO interpretationProtocols [(slug, name, rawDataSourceCategorySlug )] VALUES ("basicAmazonInterpretation", "Amazon Product Ratings Interpretation", "Amazon" );
 
 /***************
 initialization code for rawDataSourceCategory = nostrRelays:
@@ -75,6 +78,8 @@ initialization code for rawDataSourceCategory = nostrRelays:
 CREATE TABLE rawDataSources_nostr(
   ID INT PRIMARY KEY NOT NULL,
   rawDataSourceSlug TEXT NOT NULL, -- points to coreTable3, rawDataSources.slug; alternate: rawDataSourceID INT NOT NULL, pointing to rawDataSources.id
+  
+  --  nostr-specific columns
   url TEXT NOT NULL,
 );
 /*
@@ -86,7 +91,9 @@ INSERT INTO rawDataSources_nostr [(rawDataSourceSlug, url)] VALUES ("brainstormN
 -- coreTable4_nostr
 CREATE TABLE interpretationEngines_nostr(
   ID INT PRIMARY KEY NOT NULL,
-  interpretationEngineSlug TEXT NOT NULL, -- points to coreTable4, interpretationEngines.slug; alternate: interpretationEngineID INT NOT NULL, pointing to interpretationEngines.id
+  interpretationEngineSlug TEXT NOT NULL, -- points to coreTable4, interpretationEngines.slug (alternate: use id, not slug)
+
+  -- nostr-specific columns
   aSupportedInterpretationProtocolSlugs TEXT NOT NULL, -- stringified array of interpretationProtocolSlugs (each item points to interpretationProtocols.slug (coreTable5))
 );
 
@@ -97,13 +104,17 @@ INSERT INTO interpretationEngines_nostr [(interpretationEngineSlug, aSupportedIn
 CREATE TABLE interpretationProtocols_nostr(
   ID INT PRIMARY KEY NOT NULL,
   interpretationProtocolSlug TEXT NOT NULL, -- points to coreTable5, interpretationProtocols.slug; alternate: interpretationProtocolID INT NOT NULL, pointing to interpretationProtocols.id
-  requiredParametersSchema TEXT NOT NULL, -- 
+
+  -- nostr-specific columns
+  parametersSchema TEXT NOT NULL, -- stringified JSON schema (json-schema.org) template for all required and optional parameters, which may be very different for each protocol. This may or may not include default values.
+  -- ALTERNATE to parametersSchema:
+  parametersSchemaNaddr TEXT NOT NULL, -- naddr to an event with the JSON Schema, managed by Brainstorm. Advantage: multiple (competing) services can point to this naddr and ensure compatibility with the wider community
 );
 
-INSERT INTO interpretationProtocols_nostr [(interpretationProtocolSlug, requiredParametersSchema)] VALUES ("basicFollowsInterpretation", "{ properties: { score: { type: float, default: 1.0 }, confidence: { type: float, default: 0.05 } }");
-INSERT INTO interpretationProtocols_nostr [(interpretationProtocolSlug, requiredParametersSchema)] VALUES ("basicMutesInterpretation", "{ properties: { score: { type: float, default: 0.0 }, confidence: { type: float, default: 0.10 } }");
-INSERT INTO interpretationProtocols_nostr [(interpretationProtocolSlug, requiredParametersSchema)] VALUES ("basicReportsInterpretation", "{ properties: { score: { type: float, default: 0.0 }, confidence: { type: float, default: 0.20 } }");
-INSERT INTO interpretationProtocols_nostr [(interpretationProtocolSlug, requiredParametersSchema)] VALUES ("expandedReportsInterpretation", <more complex JSON handling multiple reportTypes> );
+INSERT INTO interpretationProtocols_nostr [(interpretationProtocolSlug, parametersSchema)] VALUES ("basicFollowsInterpretation", "{ properties: { score: { type: float, default: 1.0 }, confidence: { type: float, default: 0.05 } }");
+INSERT INTO interpretationProtocols_nostr [(interpretationProtocolSlug, parametersSchema)] VALUES ("basicMutesInterpretation", "{ properties: { score: { type: float, default: 0.0 }, confidence: { type: float, default: 0.10 } }");
+INSERT INTO interpretationProtocols_nostr [(interpretationProtocolSlug, parametersSchema)] VALUES ("basicReportsInterpretation", "{ properties: { score: { type: float, default: 0.0 }, confidence: { type: float, default: 0.20 } }");
+INSERT INTO interpretationProtocols_nostr [(interpretationProtocolSlug, parametersSchema)] VALUES ("expandedReportsInterpretation", <more complex JSON handling multiple reportTypes> );
 
 
 
