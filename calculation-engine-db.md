@@ -10,6 +10,7 @@ CREATE CORE DATABASE: GrapevineCalculationEngine_core.db
 - coreTable4: interpretationEngines
 - coreTable5: interpretationProtocols: used when calculating R. Includes one JSON with parameters (score, confidence, etc)
 - coreTable6: grapeRankProtocols: used when calculating G. Each protocol includes one JSON with parameters (attenuation, rigor, etc)
+- coreTable7: protocolParameterSelections: for each user, for each protocol in coreTable5 and coreTable6, record the user's selected params
 
 initialization code for the above: [SQLite](./init-calculation-engine-main-db.sql)
 
