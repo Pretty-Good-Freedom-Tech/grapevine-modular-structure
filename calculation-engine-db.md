@@ -9,6 +9,7 @@ CREATE CORE DATABASE: GrapevineCalculationEngine_core.db
 - coreTable3: rawDataSources (e.g. wss://grapevine.nostr1.com, chatGPT, Amazon, Twitter, etc)
 - coreTable4: interpretationEngines
 - coreTable5: interpretationProtocols
+- coreTable6: grapeRankProtocols
 
 initialization code for the above: [SQLite](./init-calculation-engine-main-db.sql)
 
