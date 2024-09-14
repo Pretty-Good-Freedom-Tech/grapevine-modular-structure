@@ -27,37 +27,43 @@ CREATE TABLE rawDataSources(
   ID INT PRIMARY KEY NOT NULL,
   slug TEXT UNIQUE NOT NULL,
   name TEXT NOT NULL,
-  rawDataSourceCategorySlug TEXT NOT NULL, -- alternate: rawDataSourceCategoryID INT NOT NULL,
+  description TEXT,
+  rawDataSourceCategorySlug TEXT NOT NULL, -- points to coreTable2, rawDataSourceCategories.slug (alternate: rawDataSourceCategoryID INT NOT NULL, points to rawDataSourceCategories.id)
 );
 
-INSERT INTO rawDataSources [(slug, name, rawDataSourceCategorySlug)] VALUES ("brainstormNostrRelay", "the Awesome Brainstorm nostr relay", "nostr" ); -- id: 0
+INSERT INTO rawDataSources [(slug, name, rawDataSourceCategorySlug)] VALUES ("brainstormNostrRelay", "The Awesome Brainstorm Nostr Relay", "nostr" );
 
 -- coreTable4
 CREATE TABLE interpretationEngines(
   ID INT PRIMARY KEY NOT NULL,
   slug TEXT UNIQUE NOT NULL,
   name TEXT NOT NULL,
-  description TEXT,
-  rawDataSourceCategorySlug INT NOT NULL, -- alternate: rawDataSourceCategoryID
-  aSupportedInterpretationProtocols TEXT NOT NULL, -- a stringified array of protocolSlugs
+  description TEXT,  
+  aSupportedRawDataSourceCategorySlugs TEXT NOT NULL, -- a stringified array of rawDataSourceCategorySlugs pointing to coreTable2, rawDataSourceCategories.slug (alternate: id instead of slug)
+
+  -- should this be removed and placed in the coreTable4_j ?
+  aSupportedInterpretationProtocolSlugs TEXT NOT NULL, -- a stringified array of interpretationProtocolSlugs
 );
 
-INSERT INTO interpretationEngines [(slug, name, rawDataSourceCategorySlug )] VALUES ("BrainstormNostrInterpEngine", "Brainstorm's Awesome Nostr Interpretation Engine", "nostr" );
+INSERT INTO interpretationEngines [(slug, name, aSupportedRawDataSourceCategorySlugs, aSupportedInterpretationProtocolSlugs )] VALUES ("BrainstormNostrInterpEngine", "The Awesome Brainstorm Nostr Interpretation Engine", [ "nostr" ], [] );
 
 -- coreTable5
 CREATE TABLE interpretationProtocols(
   ID INT PRIMARY KEY NOT NULL,
-  rawDataSourceCategories INT NOT NULL,
-  slug TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
   name TEXT NOT NULL,
   description TEXT,
+  aSupportedRawDataSourceCategorySlugs TEXT NOT NULL, -- a stringified array of rawDataSourceCategorySlugs pointing to coreTable2, rawDataSourceCategories.slug (alternate: id instead of slug)
+  
+  rawDataSourceCategories INT NOT NULL,
   parameterSchema TEXT NOT NULL, -- naddr pointer to a JSON Schema which specifies the required parameters
 );
 
-INSERT INTO interpretationProtocols [(rawDataSourceCategories, name)] VALUES (0, "Follows Interpretation"); -- params required fields: score, confidence
-INSERT INTO interpretationProtocols [(rawDataSourceCategories, name)] VALUES (1, "Mutes Interpretation"); -- params required fields: score, confidence
-INSERT INTO interpretationProtocols [(rawDataSourceCategories, name)] VALUES (2, "Standard Reports Interpretation"); -- params required fields: score, confidence (all reportTypes are treated the same)
-INSERT INTO interpretationProtocols [(rawDataSourceCategories, name)] VALUES (3, "Expanded Reports Interpretation"); -- params score & confidence; can vary according to reportType
+INSERT INTO interpretationProtocols [(slug, name, aSupportedRawDataSourceCategorySlugs )] VALUES ("basicFollowsInterpretation", "the Standard Follows Interpretation", [ "nostr" ] );
+INSERT INTO interpretationProtocols [(slug, name, aSupportedRawDataSourceCategorySlugs )] VALUES ("basicMutesInterpretation", "the Standard Mutes Interpretation", [ "nostr" ] );
+INSERT INTO interpretationProtocols [(slug, name, aSupportedRawDataSourceCategorySlugs )] VALUES ("basicReportsInterpretation", "the Standard Reports Interpretation", [ "nostr" ] );
+INSERT INTO interpretationProtocols [(slug, name, aSupportedRawDataSourceCategorySlugs )] VALUES ("expandedReportsInterpretation", "the Expanded Reports Interpretation", [ "nostr" ] );
+
 
 
 
@@ -65,21 +71,48 @@ INSERT INTO interpretationProtocols [(rawDataSourceCategories, name)] VALUES (3,
 initialization code for rawDataSourceCategory = nostrRelays:
 ***************/
 
-
--- coreTable3_nostrRelays
-CREATE TABLE rawDataSources_nostrRelays(
+-- coreTable3_nostr
+CREATE TABLE rawDataSources_nostr(
   ID INT PRIMARY KEY NOT NULL,
-  rawDataSourceID INT NOT NULL, -- points to coreTable3
+  rawDataSourceSlug TEXT NOT NULL, -- points to coreTable3, rawDataSources.slug; alternate: rawDataSourceID INT NOT NULL, pointing to rawDataSources.id
   url TEXT NOT NULL,
 );
 /*
 May also want other columns like: uptime or other performance measures, free vs paid, etc)
 */
 
-INSERT INTO rawDataSources_nostrRelays [(name, url, aSupportedInterpretationProtocols)] VALUES ("cloudfodder's Awesome Grapevine Relay", "wss://brainstorm.nostr1.com", "[ 'basicFollow', 'basicMute', 'basicReport' ]");
+INSERT INTO rawDataSources_nostr [(rawDataSourceSlug, url)] VALUES ("brainstormNostrRelay", "wss://brainstorm.nostr1.com");
+
+-- coreTable4_nostr
+CREATE TABLE interpretationEngines_nostr(
+  ID INT PRIMARY KEY NOT NULL,
+  interpretationEngineSlug TEXT NOT NULL, -- points to coreTable4, interpretationEngines.slug; alternate: interpretationEngineID INT NOT NULL, pointing to interpretationEngines.id
+  aSupportedInterpretationProtocolSlugs TEXT NOT NULL, -- stringified array of interpretationProtocolSlugs (each item points to interpretationProtocols.slug (coreTable5))
+);
+
+INSERT INTO interpretationEngines_nostr [(interpretationEngineSlug, aSupportedInterpretationProtocolSlugs)] VALUES ("BrainstormNostrInterpEngine", "[ 'basicFollowsInterpretation', 'basicMutesInterpretation', 'basicReportsInterpretation' ]");
 
 
--- table4b
+-- coreTable5_nostr
+CREATE TABLE interpretationProtocols_nostr(
+  ID INT PRIMARY KEY NOT NULL,
+  interpretationProtocolSlug TEXT NOT NULL, -- points to coreTable5, interpretationProtocols.slug; alternate: interpretationProtocolID INT NOT NULL, pointing to interpretationProtocols.id
+  requiredParametersSchema TEXT NOT NULL, -- 
+);
+
+INSERT INTO interpretationProtocols_nostr [(interpretationProtocolSlug, requiredParametersSchema)] VALUES ("basicFollowsInterpretation", "{ properties: { score: { type: float, default: 1.0 }, confidence: { type: float, default: 0.05 } }");
+INSERT INTO interpretationProtocols_nostr [(interpretationProtocolSlug, requiredParametersSchema)] VALUES ("basicMutesInterpretation", "{ properties: { score: { type: float, default: 0.0 }, confidence: { type: float, default: 0.10 } }");
+INSERT INTO interpretationProtocols_nostr [(interpretationProtocolSlug, requiredParametersSchema)] VALUES ("basicReportsInterpretation", "{ properties: { score: { type: float, default: 0.0 }, confidence: { type: float, default: 0.20 } }");
+INSERT INTO interpretationProtocols_nostr [(interpretationProtocolSlug, requiredParametersSchema)] VALUES ("expandedReportsInterpretation", <more complex JSON handling multiple reportTypes> );
+
+
+
+
+
+
+
+
+-- coreTable4b
 CREATE TABLE defaultInterpretationProtocolSolutions(
   ID INT PRIMARY KEY NOT NULL,
   interpretationProtocolId INT NOT NULL,
