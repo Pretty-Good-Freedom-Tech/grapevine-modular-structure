@@ -46,8 +46,8 @@ For each new user, spin up a new database, named something like: GrapevineCalcul
 - userTable2: grapeRankRatingTables -- GrapeRank Rating Table (R)
 - userTable3: grapeRankScorecards -- GrapeRank Scorecards (S) 
 - userTable4: grapeRankScorecardTables -- GrapeRank Scorecards (G)
-- userTable5: grapeRankCalculationParams -- standard GrapeRank Calculation Parameters (attenFactor, rigor, defaults (?), etc)
-- userTable6: worldviews -- Grapevine Worldview tables
-- userTable7_j: protocolParams_j -- each supported protocol (each entry in coreTable4; j = interpretationProtocolID) will have its own table of protocol-specific parameters (follow/mute/report score & confidence, how to handle different reportTypes, etc)
+- userTable5: worldviews -- Grapevine Worldview tables
+- DEPRECATING: moving this to user table? userTable6: grapeRankCalculationProtocolCustomizations -- standard GrapeRank Calculation Parameters (attenFactor, rigor, defaults (?), etc)
+- userTable6: interpretationProtocolCustomizations -- each supported protocol (each entry in coreTable5; j = interpretationProtocolID) will have its own table of protocol-specific parameters (follow/mute/report score & confidence, how to handle different reportTypes, etc)
 
 initialization code: [SQLite](./init-calculation-engine-single-user-db.sql)
