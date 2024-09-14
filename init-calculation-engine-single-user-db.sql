@@ -64,35 +64,36 @@ And so on.
 CREATE TABLE grapeRankScorecardTables(
   ID INT PRIMARY KEY NOT NULL,
   name TEXT NOT NULL,
-  aScorecards TEXT NOT NULL, -- a stringified array of IDs from the grapeRankScorecards table
+  scorecardsGenerationMethod TEXT NOT NULL, -- two options: fixed or dynamic; dynamic = SQL search string through userTable3 (see: sqlSearch); fixed = the results of that search last time it was run (stored in aScorecards)
+  sqlSearch_grapeRankScorecards TEXT, -- see examples (SELECT * ...), above
+  aScorecards TEXT, -- a stringified array of IDs from the grapeRankScorecards table
 );
+
 
 -- userTable5
-CREATE TABLE grapeRankCalculationParams(
-  ID INT PRIMARY KEY NOT NULL,
-  attenuation FLOAT(3,2) NOT NULL,
-  rigor FLOAT(3,2) NOT NULL,
-);
-
--- userTable6
 CREATE TABLE worldviews(
   ID INT PRIMARY KEY NOT NULL,
   slug TEXT NOT NULL,
   name TEXT NOT NULL,
   description TEXT,
-  nodes TEXT NOT NULL, -- a stringified array of nodes (by worldviewNodes ID)
-  edges TEXT NOT NULL, -- a stringified array of edges (by worldviewEdges ID)
+  aNodes TEXT NOT NULL, -- a stringified array of nodes (by worldviewNodes ID)
+  aEdges TEXT NOT NULL, -- a stringified array of edges (by worldviewEdges ID)
+
+  -- unsure
+  nodesGenerationMethod TEXT NOT NULL, -- two options: fixed or dynamic; dynamic = SQL search string through userTable4; fixed = the results of that search last time it was run
 );
 
--- userTable6a
+-- userTable6
 CREATE TABLE worldviewNodes(
   ID INT PRIMARY KEY NOT NULL,
-  slug TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
   name TEXT NOT NULL,
   description TEXT,
+
+  grapeRankScorecardTableID INT NOT NULL, -- ? this does NOT have to be unique, bc same G may be used in more than one worldview and may have different name, description
 );
 
--- userTable6b
+-- userTable7
 CREATE TABLE worldviewEdges(
   ID INT PRIMARY KEY NOT NULL,
   node_start INT NOT NULL, -- a stringified array of nodes
@@ -103,13 +104,4 @@ CREATE TABLE worldviewEdges(
   grapeRankCalculationParamSpecs TEXT NOT NULL, -- stringified JSON; specify attenuationFactor, rigor, etc.
 );
 
--- userTable7_0; for interpretationProtocol with Id = 0
-CREATE TABLE protocol0Params(
-  ID INT PRIMARY KEY NOT NULL,
-  userId INT NOT NULL,
-  params TEXT NOT NULL
-);
-/*
-This table stores the preferred parameters for any given protocol for any given user
-*/
 
