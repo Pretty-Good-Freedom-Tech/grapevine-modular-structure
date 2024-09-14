@@ -14,8 +14,8 @@ table5: users (customers) -- users
 for each new user, make a new database:
 SINGLE USER DATABASE: <pk_Alice>_GCE.db
 
-userTable1: GrapeRank Scorecards (G) -- grapeRankScorecards
-userTable2: GrapeRank Ratings (R) -- grapeRankRatings
+userTable1: GrapeRank Ratings (R) -- grapeRankRatings
+userTable2: GrapeRank Scorecards (G) -- grapeRankScorecards
 userTable3: standard Grapevine Calculation Parameters (attenFactor, rigor, defaults (?), etc) -- grapevineCalculationParams
 userTable4: protocol-specific parameters (score, confidence, etc) -- protocolParams
 userTable4: worldviews Grapevine Worldview tables
@@ -78,14 +78,49 @@ CREATE TABLE users(
 <pk_Alice>_GCE.db;
 
 -- userTable1
-CREATE TABLE grapeRankScorecards(
+CREATE TABLE grapeRankRatings(
   ID INT PRIMARY KEY NOT NULL,
+  rater TEXT NOT NULL,
+  ratee TEXT NOT NULL,
+  context TEXT NOT NULL,
+  score FLOAT NOT NULL,
+  confidence DECIMAL(5,4) NOT NULL,
+  lastUpdated TIMESTAMP NOT NULL,
 );
 
 -- userTable2
-CREATE TABLE grapeRankRatings(
+CREATE TABLE grapeRankScorecards(
   ID INT PRIMARY KEY NOT NULL,
+  observer TEXT NOT NULL,
+  observee TEXT NOT NULL,
+  context TEXT NOT NULL,
+  influence FLOAT NOT NULL,
+  average FLOAT NOT NULL,
+  confidence DECIMAL(5,4) NOT NULL,
+  weights FLOAT NOT NULL,
+  lastUpdated TIMESTAMP NOT NULL,
+  CONSTRAINT atom_id UNIQUE (observer, observee, context)
+  -- ??? protocol, parameters, etc? Or should these be absorbed somehow into "context"??
+  -- ??? source, which could be an Interpretation Engine or another user. If another user, it may or may not be the observer.
 );
+/*
+An "atom" refers to the 3-tuple: observer, observee, context, which together uniquely specify an individual Scorecard.
+
+For many but not all entries, the observer will (probably) be the user-owner of this database. But atoms from other observers (with or without signature? whose signature? ideally sig of the observer, but maybe the sig of the GrapeRank Calculation Engine? how about the sig of a user-as-atom-reseller?) can be purchased on the open market.
+
+Note on the atom reseller market:
+If Alice sells an atom to Bob, and Alice is the observer, then Bob will pay a higher fee if he gets Alice's signature (and arguably may not purchase it at all without her sig). BUT: Alice hopes that Bob will not resell her atom, bc she wants to be the one to make money from the sale. How does she guarantee this? 1) Ask nicely. Ha! or: 2) She encrypts the atom so that only Bob can decrypt it, and she signs the ENCRYPTED atom. That way, if Bob resells the atom to Charlie, then Charlie has no way of verifying the veracity of the sig, unless Bob is willing to reveal his private key to Charlie (which of course he will not do). Ta da!
+
+Queries will typically make use of the three atomic fields: observer, observee, and context.
+
+To return an individual GrapeRank Scorecard using its atom, run the query:
+SELECT * FROM grapeRankScorecards WHERE (observer == pk_observer, observee == pK_observee, context == context)
+
+To produce a GrapeRank Scorecard Table (G) that returns all info about Alice in context1, run the query:
+SELECT * FROM grapeRankScorecards WHERE (observee == pK_observee, context == context1)
+
+And so on. 
+*/
 
 -- userTable3
 CREATE TABLE grapevineCalculationParams(
