@@ -4,8 +4,8 @@
 
 The Grapevine is divided into 4 categories of modules and three categories of APIs.
 - Raw Data Source (e.g., a nostr relay)
-- Interpretation Engine (maybe a DVM)
-- Calculation Engine (back end to the UX front end)
+- Interpretation Engine: this is where GrapeRank-formatted Ratings are created (maybe a DVM)
+- Calculation Engine: runs the GrapeRank Equation and serves as the back end to the user interface
 - the Grapevine front end
 
 ![](https://i.nostr.build/CZpJxmS3xUrmdYg1.png)
