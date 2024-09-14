@@ -92,13 +92,43 @@ CREATE TABLE grapeRankProtocols(
 INSERT INTO grapeRankProtocols [(slug, parametersSchema )] VALUES ("basicGrapevineNetwork", "{ properties: { attenuation: { type: float, min: 0, max: 1, default: 0.8 }, rigor: { type: float, min: 0, max: 1, default: 0.25 }, defaultUserScore: { type: float, min: 0, max: 1, default: 0.0 }, defaultUserScoreConfidence: { type: float, min: 0, max: 1, default: 0.01} } }" );
 INSERT INTO grapeRankProtocols [(slug, parametersSchema )] VALUES ("basic5StarProductCalculation", "{ properties: { defaultProductScore: { type: float, min: 0, max: 5, default: 0.0 }, defaultProductScoreConfidence: { type: float, min: 0, max: 1, default: 0.05 } }}" );
 
+-- coreTable7
+CREATE TABLE protocolParameterSelections(
+  ID INT PRIMARY KEY NOT NULL,
+  userID ID UNIQUE NOT NULL,
+  protocolCategoryTableName TEXT NOT NULL, -- "interpretationProtocols" or "grapeRankProtocols" or (coreTable5 or coreTable6) 
+  protocolSlug TEXT NOT NULL, [protocolCategoryTableName].slug
+  
+  selectedParameters TEXT NOT NULL, -- stringified JSON that contains the parameters with selected values
+  
+  -- ALTERNATE to selectedParameters:
+  selectedParametersNaddr TEXT NOT NULL, -- naddr to an event with the JSON Schema, managed by Brainstorm. Advantage: multiple (competing) services can point to this naddr and ensure compatibility with the wider community
+
+  -- OPTIONAL, if we want to give the user the ability to save multiple parameter settings
+  name TEXT, 
+);
+
+-- defaults
+INSERT INTO protocolParameterSelections (userID, protocolCategoryTableName, protocolSlug, selectedParameters ) VALUES ("default", "interpretationProtocols", "basicFollowsInterpretation", "{ score: 1, confidence: 0.05 }" );
+INSERT INTO protocolParameterSelections (userID, protocolCategoryTableName, protocolSlug, selectedParameters ) VALUES ("default", "interpretationProtocols", "basicMutesInterpretation", "{ score: 0, confidence: 0.10 }" );
+INSERT INTO protocolParameterSelections (userID, protocolCategoryTableName, protocolSlug, selectedParameters ) VALUES ("default", "interpretationProtocols", "basicReportsInterpretation", "{ score: 0, confidence: 0.20 }" );
+INSERT INTO protocolParameterSelections (userID, protocolCategoryTableName, protocolSlug, selectedParameters ) VALUES ("default", "interpretationProtocols", "expandedReportsInterpretation", "{ reportTypesGroupA: { reportTypes: [ malware, illegal, spam, impersonation ], score: 1, confidence: 0.5 }, reportTypesGroupB: { reportTypes: [ profanity, nudity ], score: 1, confidence: 0.02 }, reportTypesGroupC: { reportTypes: [ other ], score: 1, confidence: 0.1 }, }" );
+INSERT INTO protocolParameterSelections (userID, protocolCategoryTableName, protocolSlug, selectedParameters ) VALUES ("default", "grapeRankProtocols", "basicGrapevineNetwork", "{ attenuation: 0.8, rigor: 0.25, defaultUserScore: 0, defaultUserScoreConfidence: 0.01 }" );
+
+-- for new user Alice:
+INSERT INTO protocolParameterSelections (userPubkey, protocolCategoryTableName, protocolSlug, selectedParameters ) VALUES (<pk_Alice>, "interpretationProtocols", "basicFollowsInterpretation", "{ score: 1, confidence: 0.05 }" );
+
+-- when Alice updates her parameter selections:
+
+UPDATE protocolParameterSelections SET selectedParameters = newParams WHERE userID = AliceId AND protocolCategoryTableName = protocolCategoryTableName AND protocolSlug = protocolSlug
+  
 /*
 "{ attenuation: 0.8, rigor: 0.25, defaultUserScore: 0, defaultUserScoreConfidence: 0.01 }"
 "{ defaultProductScore: 0, defaultProductScoreConfidence: 0.05 }"
 */
 
 /***************
-initialization code for rawDataSourceCategory = nostrRelays:
+initialization code for coreTable3_j, coreTable4_j, and coreTable5_j where j = rawDataSourceCategory = nostr:
 ***************/
 
 -- coreTable3_nostr
@@ -149,7 +179,9 @@ INSERT INTO interpretationProtocols_nostr [(interpretationProtocolSlug, paramete
 
 
 
-
+/*
+REVIEW: coreTable4b and coreTable4c are completely deprecated and fully replaced with coreTable7 (I think)
+*/
 
 -- coreTable4b
 CREATE TABLE defaultInterpretationProtocolSolutions(
