@@ -136,6 +136,18 @@ CREATE TABLE grapeRankRatings(
   lastUpdated TIMESTAMP NOT NULL,
 );
 
+-- userTable1b
+CREATE TABLE grapeRankRatingsTables(
+  ID INT PRIMARY KEY NOT NULL,
+  name TEXT NOT NULL,
+  description TEXT,
+  rawDataSourceCategoryId INT NOT NULL,
+  interpretationEngineId INT NOT NULL,
+  protocolParamSpecsId INT NOT NULL,
+  aRatingsIds TEXT NOT NULL, -- a stringified array of entries in the grapeRankRatings table
+  lastUpdated TIMESTAMP NOT NULL,
+);
+
 -- userTable2
 CREATE TABLE grapeRankScorecards(
   ID INT PRIMARY KEY NOT NULL,
@@ -169,6 +181,13 @@ SELECT * FROM grapeRankScorecards WHERE (observee == pK_observee, context == con
 
 And so on. 
 */
+
+-- userTable2b
+CREATE TABLE grapeRankScorecardTables(
+  ID INT PRIMARY KEY NOT NULL,
+  name TEXT NOT NULL,
+  aScorecards TEXT NOT NULL, -- a stringified array of IDs from the grapeRankScorecards table
+);
 
 -- userTable3
 CREATE TABLE grapevineCalculationParams(
