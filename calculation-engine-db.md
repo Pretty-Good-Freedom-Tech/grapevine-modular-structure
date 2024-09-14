@@ -8,8 +8,8 @@ CREATE CORE DATABASE: GrapevineCalculationEngine_core.db
 - coreTable2: rawDataSourceCategories (e.g. nostrRelays, AI, eCommerce, socialMedia, etc)
 - coreTable3: rawDataSources (e.g. wss://grapevine.nostr1.com, chatGPT, Amazon, Twitter, etc)
 - coreTable4: interpretationEngines
-- coreTable5: interpretationProtocols
-- coreTable6: grapeRankProtocols
+- coreTable5: interpretationProtocols: used when calculating R. Includes one JSON with parameters (score, confidence, etc)
+- coreTable6: grapeRankProtocols: used when calculating G. Each protocol includes one JSON with parameters (attenuation, rigor, etc)
 
 initialization code for the above: [SQLite](./init-calculation-engine-main-db.sql)
 
