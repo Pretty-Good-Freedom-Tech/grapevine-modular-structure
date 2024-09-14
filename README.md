@@ -2,15 +2,22 @@
 
 ## Modules and APIs
 
-The Grapevine is divided into 4 categories of modules and three categories of APIs.
+The Grapevine is divided into 4 categories of modules and 3 categories of APIs. (See Figure.)
+
+Categories of Modules:
 - Raw Data Source (e.g., a nostr relay)
 - Interpretation Engine: this is where GrapeRank-formatted Ratings are created (maybe a DVM)
 - Calculation Engine: runs the GrapeRank Equation and serves as the back end to the user interface
 - the Grapevine front end
 
+Categories of APIs:
+- interface between Raw Data and Interpretation Engine
+- interface between the Interpretation Engine and the Calculation Engine
+- interface between the Calculation Engine and the front end
+
 ![](https://i.nostr.build/CZpJxmS3xUrmdYg1.png)
 
-### Raw Data Source
+### Module type 1: Raw Data Source
 
 This is completely external to the Grapevine. 
 
@@ -19,17 +26,19 @@ Examples: **nostr relays** (our focus of course), google, AI (Grok, ChatGPT), an
 * QUESTION: Can the raw data source be ANY nostr relay? Or does it need to be a specialized relay? 
 * ANSWER: **Any relay should work**, but _some relays may specialize in Grapevine services_. What this means, exactly, is yet to be determined. It might mean (for example) efficient lookup of common Interpretation Engine queries, e.g. all follows and followers. It could mean full-blown pairing of the relay with the Interpretation Engine. Somewhere in-between: changes to the nostr filter API?
 
-### Interpretation Engine
+### Module type 2: Interpretation Engine
 
 A specialized service which sits between raw data and the Calculation Engine. It talks to the outside world, fetches data, turns it into a list R of GrapeRank-formatted ratings r, and passes R onto the Calculation Engine.
 
 The Interpretation Engine may operate as a DVM.
 
-## Calculation Engine
+### Module type 3: Calculation Engine
 
 This receives GrapeRank-formatted Ratings from Interpretation Engines and runs the GrapeRank equation to produce GrapeRank Scorecards. It stores Ratings, Scorecards, and individual user settings (several categories of parameters).
 
-### Front End
+See [SQLite code](./) to initialize database.
+
+### Module type 4: Front End
 
 Where the user goes to explore all available ScoreCards and GrapeRankRatings
 
@@ -40,7 +49,7 @@ There are three categories of APIs:
 - interface between the Interpretation Engine and the Calculation Engine
 - interface between the Calculation Engine and the front end
 
-### API: Raw Data Source <--> Interpretation Engine
+### API type 1: Raw Data Source <--> Interpretation Engine
 
 The structure of this API will of course be entirely dependent on the type of data source. 
 
@@ -51,7 +60,7 @@ If the data source type = nostr:
 - The Interpretation Engine receives a stream of events from the relay
 - The Interpretation Engine runs a function that inputs raw events, protocolName, and parameters and outputs a GrapeRank-formatted Ratings Table (R)
 
-### API: Interpretation Engine <--> Calculation Engine
+### API type 2: Interpretation Engine <--> Calculation Engine
 
 - Interpretation Engine receives a request from the Calculation Engine which must contain:
     - protocolType (string)
@@ -65,7 +74,7 @@ Each protocolType will have its own set of parameters. The "observer" may or may
 The Interpretation Engine may also handle the following query:
 - a request to provide a list of all supported protocolTypes (and the schema of the requisite protocol for each protocolType)
 
-### API: Calculation Engine <--> front end
+### API type 3: Calculation Engine <--> front end
 
 The user can:
 - view the user's canonical Grapevine Network
@@ -80,6 +89,6 @@ The user can:
 
 ## Sources of Raw Data
 
-Although we are nostr-focused, the Grapevine is designed to accept input from multiple sources and from multiple source types. One day, grapevine will grow beyond nostr.
+Although we are nostr-focused, the Grapevine is designed to accept input from multiple sources and from multiple source types. One day, grapevine will grow beyond nostr. (See Figure.)
 
 ![Multiple Sources of Input](https://i.nostr.build/TtZ2ByM3KJsyL17r.png)
