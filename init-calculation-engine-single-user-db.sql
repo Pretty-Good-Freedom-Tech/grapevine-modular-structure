@@ -1,7 +1,7 @@
-------------- ONE DATABASE PER USER, 4 tables
-
 -- Create user-specific database
-<pk_Alice>_GCE.db;
+GrapeRankCalculationEngine_<pk_Alice>.db;
+
+-- Create tables 
 
 -- userTable1
 CREATE TABLE grapeRankRatings(
@@ -14,7 +14,7 @@ CREATE TABLE grapeRankRatings(
   lastUpdated TIMESTAMP NOT NULL,
 );
 
--- userTable1b
+-- userTable2
 CREATE TABLE grapeRankRatingsTables(
   ID INT PRIMARY KEY NOT NULL,
   name TEXT NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE grapeRankRatingsTables(
   lastUpdated TIMESTAMP NOT NULL,
 );
 
--- userTable2
+-- userTable3
 CREATE TABLE grapeRankScorecards(
   ID INT PRIMARY KEY NOT NULL,
   observer TEXT NOT NULL,
@@ -60,29 +60,21 @@ SELECT * FROM grapeRankScorecards WHERE (observee == pK_observee, context == con
 And so on. 
 */
 
--- userTable2b
+-- userTable4
 CREATE TABLE grapeRankScorecardTables(
   ID INT PRIMARY KEY NOT NULL,
   name TEXT NOT NULL,
   aScorecards TEXT NOT NULL, -- a stringified array of IDs from the grapeRankScorecards table
 );
 
--- userTable3
-CREATE TABLE grapevineCalculationParams(
-  ID INT PRIMARY KEY NOT NULL,
-);
-
--- userTable4_0; for protocol with Id = 0
-CREATE TABLE protocol0Params(
-  ID INT PRIMARY KEY NOT NULL,
-  userId INT NOT NULL,
-  params TEXT NOT NULL
-);
-/*
-This table stores the preferred parameters for any given protocol for any given user
-*/
-
 -- userTable5
+CREATE TABLE grapeRankCalculationParams(
+  ID INT PRIMARY KEY NOT NULL,
+  attenuation FLOAT(3,2) NOT NULL,
+  rigor FLOAT(3,2) NOT NULL,
+);
+
+-- userTable6
 CREATE TABLE worldviews(
   ID INT PRIMARY KEY NOT NULL,
   slug TEXT NOT NULL,
@@ -92,7 +84,7 @@ CREATE TABLE worldviews(
   edges TEXT NOT NULL, -- a stringified array of edges (by worldviewEdges ID)
 );
 
--- userTable5a
+-- userTable6a
 CREATE TABLE worldviewNodes(
   ID INT PRIMARY KEY NOT NULL,
   slug TEXT NOT NULL,
@@ -100,7 +92,7 @@ CREATE TABLE worldviewNodes(
   description TEXT,
 );
 
--- userTable5b
+-- userTable6b
 CREATE TABLE worldviewEdges(
   ID INT PRIMARY KEY NOT NULL,
   node_start INT NOT NULL, -- a stringified array of nodes
@@ -111,4 +103,13 @@ CREATE TABLE worldviewEdges(
   grapeRankCalculationParamSpecs TEXT NOT NULL, -- stringified JSON; specify attenuationFactor, rigor, etc.
 );
 
+-- userTable7_0; for interpretationProtocol with Id = 0
+CREATE TABLE protocol0Params(
+  ID INT PRIMARY KEY NOT NULL,
+  userId INT NOT NULL,
+  params TEXT NOT NULL
+);
+/*
+This table stores the preferred parameters for any given protocol for any given user
+*/
 
