@@ -6,25 +6,35 @@ GrapeRankCalculationEngine_<pk_Alice>.db;
 -- userTable1
 CREATE TABLE grapeRankRatings(
   ID INT PRIMARY KEY NOT NULL,
-  rater TEXT NOT NULL,
-  ratee TEXT NOT NULL,
-  context TEXT NOT NULL,
-  score FLOAT NOT NULL,
-  confidence DECIMAL(5,4) NOT NULL,
+  rater TEXT NOT NULL, -- pubkey 
+  ratee TEXT NOT NULL, -- pubkey or some other uid 
+  context TEXT NOT NULL, 
+  score FLOAT NOT NULL, -- between 0 and 1 (for now)
+  confidence DECIMAL(5,4) NOT NULL, -- between 0 and 1 
   lastUpdated TIMESTAMP NOT NULL,
+  CONSTRAINT atom_id UNIQUE (rater, ratee, context)
 );
+/*
+An "atom" refers to the 3-tuple: rater, ratee, context, which together uniquely specify an individual GrapeRank Rating.
+
+When querying this table, if all three fields in an atom are specified, a single entry should be returned;
+otherwise, multiple entries may be returned.
+*/
 
 -- userTable2
 CREATE TABLE grapeRankRatingsTables(
   ID INT PRIMARY KEY NOT NULL,
   name TEXT NOT NULL,
   description TEXT,
-  rawDataSourceCategoryId INT NOT NULL,
-  interpretationEngineId INT NOT NULL,
+  rawDataSourceCategoryId INT NOT NULL, -- points to coreTable2: rawDataSourceCategories
+  interpretationEngineId INT NOT NULL, -- points to coreTable4: interpretationEngines
   protocolParamSpecsId INT NOT NULL,
-  aRatingsIds TEXT NOT NULL, -- a stringified array of entries in the grapeRankRatings table
+  aRatingsIds TEXT NOT NULL, -- a stringified array of entries in userTable1, the grapeRankRatings table
   lastUpdated TIMESTAMP NOT NULL,
 );
+/*
+
+*/
 
 -- userTable3
 CREATE TABLE grapeRankScorecards(
