@@ -26,11 +26,17 @@ CREATE TABLE grapeRankRatingsTables(
   ID INT PRIMARY KEY NOT NULL,
   name TEXT NOT NULL,
   description TEXT,
+
+  ratingsGenerationMethod TEXT NOT NULL, -- two options: fixed or dynamic; dynamic = SQL search string through userTable1; fixed = the results of that search last time it was run (stored in aRatings)
+  sqlSearch_grapeRankRatings TEXT, -- string of an sql search string of userTable1
+  aRatings TEXT NOT NULL, -- a stringified array of ids pointing to userTable1, the grapeRankRatings table
+  
+  lastUpdated TIMESTAMP NOT NULL,
+
+  -- UNDER REVIEW:
   rawDataSourceCategoryId INT NOT NULL, -- points to coreTable2: rawDataSourceCategories
   interpretationEngineId INT NOT NULL, -- points to coreTable4: interpretationEngines
   protocolParamSpecsId INT NOT NULL,
-  aRatingsIds TEXT NOT NULL, -- a stringified array of entries in userTable1, the grapeRankRatings table
-  lastUpdated TIMESTAMP NOT NULL,
 );
 /*
 
@@ -74,9 +80,13 @@ And so on.
 CREATE TABLE grapeRankScorecardTables(
   ID INT PRIMARY KEY NOT NULL,
   name TEXT NOT NULL,
+  description TEXT,
+  
   scorecardsGenerationMethod TEXT NOT NULL, -- two options: fixed or dynamic; dynamic = SQL search string through userTable3 (see: sqlSearch); fixed = the results of that search last time it was run (stored in aScorecards)
   sqlSearch_grapeRankScorecards TEXT, -- see examples (SELECT * ...), above
   aScorecards TEXT, -- a stringified array of IDs from the grapeRankScorecards table
+  
+  lastUpdated TIMESTAMP NOT NULL,
 );
 
 
