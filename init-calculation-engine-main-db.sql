@@ -7,8 +7,10 @@ CREATE TABLE users(
   ID INT PRIMARY KEY NOT NULL,
   pubkey TEXT UNIQUE NOT NULL,
   whenSignedUp TIMESTAMP NOT NULL,
-  grapeRankCalculationProtocolCustomizations TEXT, -- stringified JSON with user's preferred parameters, eg attentuation = 0.75; must validate against the relevant JSON Schema; 
   subscriptionPlan TEXT NOT NULL, -- will need to flesh out later what this means
+
+  -- might be deprecating this:
+  grapeRankCalculationProtocolCustomizations TEXT, -- stringified JSON with user's preferred parameters, eg attentuation = 0.75; must validate against the relevant JSON Schema; 
 );
 
 -- coreTable2
