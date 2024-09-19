@@ -60,18 +60,12 @@ CREATE TABLE interpretationProtocols(
   description TEXT,
   rawDataSourceCategorySlug TEXT NOT NULL, -- points to coreTable2, rawDataSourceCategories.slug (alternate: rawDataSourceCategoryID INT NOT NULL, points to rawDataSourceCategories.id)
 
-
-
-  
   ---?????????:
-  -- nostr-specific columns
   parametersSchema TEXT NOT NULL, -- stringified JSON schema (json-schema.org) template for all required and optional parameters, which may be very different for each protocol. This may or may not include default values.
   
   -- ALTERNATE to parametersSchema:
   parametersSchemaNaddr TEXT NOT NULL, -- naddr to an event with the JSON Schema, managed by Brainstorm. Advantage: multiple (competing) services can point to this naddr and ensure compatibility with the wider community
   ----??????
-
-
 
   
   -- DEPRECATED: 
