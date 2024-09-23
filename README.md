@@ -15,7 +15,7 @@ Categories of APIs:
 - interface between the Interpretation Engine and the Calculation Engine
 - interface between the Calculation Engine and the front end
 
-![](https://i.nostr.build/CZpJxmS3xUrmdYg1.png)
+![](https://i.nostr.build/uA0L6oc5nAzrU0iK.png)
 
 ### Module type 1: Raw Data Source
 
