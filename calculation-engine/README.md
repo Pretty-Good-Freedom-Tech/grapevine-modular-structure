@@ -3,11 +3,11 @@
 # Calculation Engine Database (cache)
 
 The Calculation Engine cache is broken up into several relational databases:
-- initialization code for the **Core GCE Database**: [SQLite](./database-initialization-core.sql)
-- initialization code for the database of an individual user: [SQLite](./database-initialization-single-user.sql)
-- initialization code for rawDataSourceCategory = nostr: [SQLite](./database-initialization-nostr.sql)
-- initialization code for rawDataSourceCategory = Amazon: in progress
-- initialization code for rawDataSourceCategory = AI: in progress
+- [initialization code](./database-initialization-core.sql) for the **Core GCE Database**
+- [initialization code](./database-initialization-single-user.sql) for the database of an individual user
+- [initialization code](./database-initialization-core-nostr.sql) for rawDataSourceCategory = nostr
+- initialization code for rawDataSourceCategory = Amazon (in progress)
+- initialization code for rawDataSourceCategory = AI (in progress)
 
 ## CORE GCE DATABASE
 
