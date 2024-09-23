@@ -1,8 +1,13 @@
-# GrapeRank Calculation Engine (GCE) Database (cache)
+# GrapeRank Calculation Engine
 
-initialization code for the **Core GCE Database**: [SQLite](./database-initialization-core.sql)
+# Calculation Engine Database (cache)
 
-initialization code for the database of an individual user: [SQLite](./database-initialization-single-user.sql)
+The Calculation Engine cache is broken up into several relational databases:
+- initialization code for the **Core GCE Database**: [SQLite](./database-initialization-core.sql)
+- initialization code for the database of an individual user: [SQLite](./database-initialization-single-user.sql)
+- initialization code for rawDataSourceCategory = nostr: [SQLite](./database-initialization-nostr.sql)
+- initialization code for rawDataSourceCategory = Amazon: in progress
+- initialization code for rawDataSourceCategory = AI: in progress
 
 ## CORE GCE DATABASE
 
@@ -22,31 +27,22 @@ Raw Data Sources
 - coreTable3_j: rawDataSourcesForCategory_j -- each supported rawDataSourceCategory will have its own table of supported Raw Data Sources
 Examples:
 - coreTable3_nostr: rawDataSourcesForCategory_nostr (e.g. wss://brainstorm.nostr1.com)
+- coreTable3_Amazon: rawDataSourcesForCategory_Amazon
 - coreTable3_AI: rawDataSourcesForCategory_AI
 
 Interpretation Engines
 - coreTable4_j: interpretationEnginesForCategory_j -- Interp Engines for an individual rawDataSourceCategory
 Examples:
-- coreTable4_nostr: interpretationEnginesForCategory_nostr
+- coreTable4_nostr: interpretationEnginesForCategory_nostr (e.g. the Brainstorm Nostr Interpretation Engine)
+- coreTable4_Amazon: interpretationEnginesForCategory_Amazon
 - coreTable4_AI: interpretationEnginesForCategory_AI
 
 Interpretation Protocols
 - coreTable5_j: interpretationProtocolsForCategory_j -- available interpretation protocols for each rawDataSourceCategory (& for each Interp Engine)
 Examples:
-- coreTable5_nostr: interpretationProtocolsForCategory_nostr
+- coreTable5_nostr: interpretationProtocolsForCategory_nostr (e.g. the Brainstorm Follows Interpretation Protocol)
+- coreTable5_Amazon: interpretationProtocolsForCategory_Amazon
 - coreTable5_AI: interpretationProtocolsForCategory_AI
-
-### j = nostr
-
-initialization code for rawDataSourceCategory = nostr: [SQLite](./database-initialization-nostr.sql)
-
-### j = Amazon
-
-in progress
-
-### j = AI
-
-in progress
 
 ## NEW DATABASE FOR EACH CUSTOMER / USER
 
