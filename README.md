@@ -12,7 +12,7 @@ Categories of Modules:
 
 Categories of APIs:
 1. interface between Raw Data and Interpretation Engine
-2. the **Calculation / Interpretation AP**I: interface between the Interpretation Engine and the Calculation Engine
+2. the [**Calculation / Interpretation API**](./APIs/calculationInterpretationAPI.md): interface between the Interpretation Engine and the Calculation Engine
 3. the **Endpoint API**: interface between the Calculation Engine and the front end
 
 ![](https://i.nostr.build/uA0L6oc5nAzrU0iK.png)
@@ -44,7 +44,7 @@ Where the user goes to explore all available ScoreCards and GrapeRankRatings
 
 There are three categories of APIs:
 - interface between Raw Data and Interpretation Engine
-- [interface between the Interpretation Engine and the Calculation Engine](./APIs/calculationInterpretationAPI.md)
+- interface between the Interpretation Engine and the Calculation Engine
 - interface between the Calculation Engine and the front end
 
 ### API type 1: Raw Data Source <--> Interpretation Engine
