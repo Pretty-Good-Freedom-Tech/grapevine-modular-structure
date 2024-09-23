@@ -12,7 +12,7 @@ CREATE CORE DATABASE: GrapevineCalculationEngine_core.db
 - coreTable6: grapeRankProtocols: used when calculating G. Each protocol includes one JSON with parameters (attenuation, rigor, etc)
 - coreTable7: protocolParameterSelections: for each user, for each protocol in coreTable5 and coreTable6, record the user's selected params
 
-initialization code for the above: [SQLite](./init-calculation-engine-main-db.sql)
+initialization code for the above: [SQLite](./database-initialization-core.sql)
 
 FOR EACH ROW j IN coreTable2, THERE WILL BE AN ADDITIONAL coreTable3_j, coreTable4_j, and coreTable5_j, where j = rawDataSourceCategoryID or rawDataSourceCategorySlug
 
@@ -36,9 +36,9 @@ Examples:
 - coreTable5_nostrRelays: interpretationProtocolsForCategory_nostrRelays
 - coreTable5_AI: interpretationProtocolsForCategory_AI
 
-initialization code for rawDataSourceCategory = nostrRelays: [SQLite](./init-calculation-engine-main-db.sql)
+initialization code for rawDataSourceCategory = nostrRelays: [SQLite](./database-initialization-core.sql)
 
-initialization code for rawDataSourceCategory = AI: [SQLite](./init-calculation-engine-main-db.sql)
+initialization code for rawDataSourceCategory = AI: [SQLite](./database-initialization-core.sql)
 
 ## NEW DATABASE FOR EACH CUSTOMER / USER
 
@@ -52,4 +52,4 @@ For each new user, spin up a new database, named something like: GrapevineCalcul
 - userTable6: worldViewNodes: specifies one G, and includes into on how to (re)derive it: which dataSource, which protocol, which interpEngine
 - userTable7: worldViewEdges: specifies an R and a P (GrapeRank parameters)
 
-initialization code: [SQLite](./init-calculation-engine-single-user-db.sql)
+initialization code: [SQLite](./database-initialization-single-user.sql)
