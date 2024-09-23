@@ -5,4 +5,4 @@ Each nostr Interpretation Engine maintains a table of nostr interpretation proto
 - slug
 - name
 - description
-- json schema
+- a json schema which describes the structure of the object of parameters that are communicated via API from the Calculation Engine to the Interpretation Engine
