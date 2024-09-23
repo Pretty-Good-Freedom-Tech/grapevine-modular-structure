@@ -8,7 +8,7 @@ It communicates with a nostr relay in the usual fashion.
 
 ## Functions
 
-The function `processRequest` 
+The function `processRequest` takes the request object as input and outputs the response object, which is ready to be sent back to the Calculation Engine.
 
 Upon receiving a request via API, the Interpretation Engine performs the following steps:
 1. If `universalInterpretationProtocolID` is in the local db, proceed to step 2. If not, throw an error with the message: "universalInterpretationProtocolID not recognized."
