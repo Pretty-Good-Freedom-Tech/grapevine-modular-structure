@@ -27,11 +27,3 @@ function processRequest = async (interpretationProtocolSlug, oParams) => {
   }
 }
 ```
-
-SQL table of interpretationProtocols, descriptions, and their JSON Schema
-
-col1: interpretationProtocolSlug
-col2: description
-col3: params-JSON-schema (stringified)
-col4: naddr-for-params-json-schema
-?? col5: default-params ?? (maybe pull these from the json-schema??)
