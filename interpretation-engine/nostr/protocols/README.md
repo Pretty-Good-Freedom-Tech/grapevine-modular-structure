@@ -8,13 +8,16 @@ Each nostr Interpretation Engine maintains a table of nostr interpretation proto
 
 ## Example Protocols
 
-[basicFollowsInterpretation](./basicFollowsInterpretation.md)
+[follows](./basicFollowsInterpretation.md)
 
-[basicMutesInterpretation](./basicMutesInterpretation.md)
+[mutes](./basicMutesInterpretation.md)
 
-[basicReportsInterpretation](./basicReportsInterpretation.md)
+[reports](./basicReportsInterpretation.md)
 
-[expandedReportsInterpretation](./expandedReportsInterpretation.md)
+[expanded reports](./expandedReportsInterpretation.md)
 
-[brainstormNotSpam](./brainstormNotSpam.md)
+Like reports, but treat e.g. nudity differently than spam
 
+[full brainstorm not spam](./brainstormNotSpam.md)
+
+follows, mutes, and reports all in one interpretation protocol
