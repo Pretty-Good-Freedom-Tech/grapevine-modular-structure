@@ -1,10 +1,39 @@
 # Nostr Interpretation Engine 
 
-## Database (cache)
+## API
 
 An Interpretation Engine receives a request via API with:
 - interpretationProtocolSlug
 - a set of parameters in JSON, stringified
+
+### payload
+
+In the absence of an error, the Nostr Interpretation Engine returns a payload which is a Ratings Table, a.k.a. an "R-Table" such as the following:
+
+```
+[
+  {
+    rater: pk_Bob,
+    ratee: pk_Alice,
+    context: notSpam,
+    score: 1.0,
+    confidence: 0.05
+  },
+  {
+    rater: pk_Bob,
+    ratee: pk_Charlie,
+    context: notSpam,
+    score: 1.0,
+    confidence: 0.05
+  }
+]
+```
+
+JSON Schema for an R Table:
+
+(work in progress)
+
+## Functions
 
 Upon receiving a request via API, the Interpretation Engine performs the following steps:
 1. If interpretationProtocolSlug is in the local db, proceed to step 2. If not, throw an error: "Interpretation Protocol not recognized."
