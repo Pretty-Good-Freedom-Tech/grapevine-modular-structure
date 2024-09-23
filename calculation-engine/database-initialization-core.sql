@@ -17,7 +17,7 @@ CREATE TABLE users(
 CREATE TABLE rawDataSourceCategories(
   ID INT PRIMARY KEY NOT NULL,
   SLUG TEXT UNIQUE NOT NULL,
-  NAME TEXT NOT NULL,
+  NAME TEXT,
   DESCRIPTION TEXT,
 );
 
@@ -40,7 +40,8 @@ INSERT INTO rawDataSources [(slug, name, rawDataSourceCategorySlug)] VALUES ("br
 CREATE TABLE interpretationEngines(
   ID INT PRIMARY KEY NOT NULL,
   slug TEXT UNIQUE NOT NULL,
-  name TEXT NOT NULL,
+  name TEXT,
+  title TEXT,
   description TEXT,  
   rawDataSourceCategorySlug TEXT NOT NULL, -- points to coreTable2, rawDataSourceCategories.slug (alternate: rawDataSourceCategoryID INT NOT NULL, points to rawDataSourceCategories.id)
   
