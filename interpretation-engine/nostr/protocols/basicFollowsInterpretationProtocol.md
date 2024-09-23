@@ -17,7 +17,7 @@ Follows
 
 This interpretation protocol receives an array of `pubkeys`, looks up the kind 3 note for each pubkey, and generates a rating for each follow with the `score` and `confidence` as provided in the parameters. This process is repeated (follows' follows, their follows, etc) as indicated by the `depth` parameter.
 
-Each rating puts the string: `notSpam` into the context field.
+By default, each rating will contain the string: `notSpam` into the context field. This can be overriden by inclusion of `context` in the input parameters.
 
 ### naddr
 
@@ -40,6 +40,7 @@ The JSON Schema, against which the parameters must validate.
 
 ```
 {
+      required: [ "score", "confidence", "depth", "pubkeys" ],
       properties: {
             score: {
                   type: float,
@@ -65,6 +66,12 @@ The JSON Schema, against which the parameters must validate.
                   },
                   minContains: 1,
             },
+            context: {
+                  type: string,
+            },
       }
 }
 ```
+
+Note that the `context` property is not required.
+
