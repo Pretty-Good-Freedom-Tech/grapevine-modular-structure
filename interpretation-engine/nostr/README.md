@@ -21,25 +21,25 @@ const processRequest = async (request) => {
   const parameters = universalInterpretationProtocolID.paremeters
   switch(universalInterpretationProtocolID) {
     case "basicBrainstormFollowsOnlyInterpretationProtocol":
-      return await result = returnFollowsOnlyTable(params)
+      return result = await returnFollowsOnlyTable(params)
     case "basicdBrainstormMutesOnlyInterpretationProtocol":
-      return await result = returnMutesOnlyTable(params)
+      return result = await returnMutesOnlyTable(params)
     case "basicBrainstormReportsOnlyInterpretationProtocol":
-      return await result = returnReportsOnlyTable(params)    
+      return result = await returnReportsOnlyTable(params)    
     case "recommendedBrainstormNotBotsInterpretationProtocol": // follows, mutes, and reports (may add zaps, other sources of data later)
-      return await result = returnNotBotsTable(params)    
+      return result = await returnNotBotsTable(params)    
     default
-      return errorInterpretationProtocolNotRecognized()
+      return result = errorInterpretationProtocolNotRecognized()
   }
 }
 
-const response = processRequest(request)
+const response = await processRequest(request)
 ```
 
 Follows:
 
 ```
-const returnFollowsOnlyTable = (params) => {
+const returnFollowsOnlyTable = async (params) => {
   const aRatings = []
 
   /* build the aRatings table from follows */
@@ -55,7 +55,7 @@ const returnFollowsOnlyTable = (params) => {
 Mutes:
 
 ```
-const returnMutesOnlyTable = (params) => {
+const returnMutesOnlyTable = async (params) => {
   const aRatings = []
 
   /* build the aRatings table from mutes */
