@@ -1,5 +1,6 @@
 /***************
-initialization code for coreTable3_j, coreTable4_j, and coreTable5_j where j = rawDataSourceCategory = nostr:
+initialization code for coreTable3_j, coreTable4_j, and coreTable5_j where j = rawDataSourceCategory = nostr
+These tables belong to the core database (not the user database)
 ***************/
 
 -- coreTable3_nostr
