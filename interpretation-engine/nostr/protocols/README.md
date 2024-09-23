@@ -9,10 +9,13 @@ Each nostr Interpretation Engine maintains a table of nostr interpretation proto
 
 ## Example Protocols
 
-follows
+[basicFollowsInterpretation](./basicFollowsInterpretation.md)
 
-mutes
+[basicMutesInterpretation](./basicMutesInterpretation.md)
 
-reports
+[basicReportsInterpretation](./basicReportsInterpretation.md)
 
-brainstormNotSpam
+[expandedReportsInterpretation](./expandedReportsInterpretation.md)
+
+[brainstormNotSpam](./brainstormNotSpam.md)
+
