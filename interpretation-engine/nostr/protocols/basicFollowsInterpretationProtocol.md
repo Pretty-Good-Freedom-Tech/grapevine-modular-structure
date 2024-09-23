@@ -19,7 +19,7 @@ Follows
 
 ### description
 
-This interpretation protocol receives an array of pubkeys, looks up the kind 3 note for each pubkey, and generates a rating for each follow with the score and confidence as provided in the parameters. This process is repeated (follows' follows, their follows, etc) as indicated by the `depth` parameter.
+This interpretation protocol receives an array of `pubkeys`, looks up the kind 3 note for each pubkey, and generates a rating for each follow with the `score` and `confidence` as provided in the parameters. This process is repeated (follows' follows, their follows, etc) as indicated by the `depth` parameter.
 
 ### naddr
 
@@ -59,6 +59,13 @@ The JSON Schema, against which the parameters must validate.
                   type: integer,
                   min: 1,
                   default: 5,
+            },
+            pubkeys: {
+                  type: array,
+                  contains: {
+                        type: string,
+                  },
+                  minContains: 1,
             },
       }
 }
