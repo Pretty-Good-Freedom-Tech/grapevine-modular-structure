@@ -2,36 +2,7 @@
 
 ## API
 
-An Interpretation Engine receives a request via API with:
-- interpretationProtocolSlug
-- a set of parameters in JSON, stringified
-
-### payload
-
-In the absence of an error, the Nostr Interpretation Engine returns a payload which is a Ratings Table, a.k.a. an "R-Table" such as the following:
-
-```
-[
-  {
-    rater: pk_Bob,
-    ratee: pk_Alice,
-    context: notSpam,
-    score: 1.0,
-    confidence: 0.05
-  },
-  {
-    rater: pk_Bob,
-    ratee: pk_Charlie,
-    context: notSpam,
-    score: 1.0,
-    confidence: 0.05
-  }
-]
-```
-
-JSON Schema for an R Table:
-
-(work in progress)
+The Nostr Interpretation Engine communicates with the Calculation Engine via [API](../../APIs/calculationInterpretationAPIs.md)
 
 ## Functions
 
