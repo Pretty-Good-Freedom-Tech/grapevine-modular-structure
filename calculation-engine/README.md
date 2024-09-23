@@ -1,5 +1,9 @@
 # GrapeRank Calculation Engine (GCE) Database (cache)
 
+initialization code for the **Core GCE Database**: [SQLite](./database-initialization-core.sql)
+
+initialization code for the database of an individual user: [SQLite](./database-initialization-single-user.sql)
+
 ## CORE GCE DATABASE
 
 CREATE CORE DATABASE: GrapevineCalculationEngine_core.db
@@ -11,8 +15,6 @@ CREATE CORE DATABASE: GrapevineCalculationEngine_core.db
 - coreTable5: interpretationProtocols: used when calculating R. Includes one JSON with parameters (score, confidence, etc)
 - coreTable6: grapeRankProtocols: used when calculating G. Each protocol includes one JSON with parameters (attenuation, rigor, etc)
 - coreTable7: protocolParameterSelections: for each user, for each protocol in coreTable5 and coreTable6, record the user's selected params
-
-initialization code for the above: [SQLite](./database-initialization-core.sql)
 
 FOR EACH ROW j IN coreTable2, THERE WILL BE AN ADDITIONAL coreTable3_j, coreTable4_j, and coreTable5_j, where j = rawDataSourceCategoryID or rawDataSourceCategorySlug
 
@@ -52,4 +54,3 @@ For each new user, spin up a new database, named something like: GrapevineCalcul
 - userTable6: worldViewNodes: specifies one G, and includes into on how to (re)derive it: which dataSource, which protocol, which interpEngine
 - userTable7: worldViewEdges: specifies an R and a P (GrapeRank parameters)
 
-initialization code: [SQLite](./database-initialization-single-user.sql)
