@@ -6,8 +6,8 @@ The Grapevine is divided into 4 categories of modules and 3 categories of APIs. 
 
 Categories of Modules:
 - **Raw Data Source** (e.g., a nostr relay)
-- **Interpretation Engine**: this is where GrapeRank-formatted Ratings are created (maybe a DVM)
-- **Calculation Engine**: runs the GrapeRank Equation and serves as the back end to the user interface
+- [**Interpretation Engine**](./interpretation-engine/README.md): this is where GrapeRank-formatted Ratings are created (maybe a DVM)
+- [**Calculation Engine**](./calculation-engine/README.md): runs the GrapeRank Equation and serves as the back end to the user interface
 - the **Grapevine front end**
 
 Categories of APIs:
@@ -35,8 +35,6 @@ The Interpretation Engine may operate as a DVM.
 ### Module type 3: Calculation Engine
 
 This receives GrapeRank-formatted Ratings from Interpretation Engines and runs the GrapeRank equation to produce GrapeRank Scorecards. It stores Ratings, Scorecards, and individual user settings (several categories of parameters).
-
-See [SQLite db structure](./calculation-engine-db.md) for organization of database including code for initialization.
 
 ### Module type 4: Front End
 
