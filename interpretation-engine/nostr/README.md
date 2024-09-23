@@ -6,6 +6,10 @@ The Nostr Interpretation Engine communicates with the Calculation Engine via [AP
 
 It communicates with a nostr relay in the usual fashion.
 
+## Protocols
+
+See a list of [nostr interpretation protocols](./protocols/README.md)
+
 ## Functions
 
 The function `processRequest` takes the request object as input and outputs the response object, which is ready to be sent back to the Calculation Engine.
