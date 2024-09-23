@@ -4,26 +4,73 @@
 
 The Nostr Interpretation Engine communicates with the Calculation Engine via [API](../../APIs/calculationInterpretationAPI.md).
 
+It communicates with a nostr relay in the usual fashion.
+
 ## Functions
 
+The function `processRequest` 
+
 Upon receiving a request via API, the Interpretation Engine performs the following steps:
-1. If interpretationProtocolSlug is in the local db, proceed to step 2. If not, throw an error: "Interpretation Protocol not recognized."
-2. Validate protocolSchema against protocol json schema in the local db. If validates, proceed to step 3. If not, throw an error: "Protocol Parameters do not validate against the expected JSON Schema." (optional: provide naddr with the expected json schema.)
-3. Execute the function which corresponds to the 
+1. If `universalInterpretationProtocolID` is in the local db, proceed to step 2. If not, throw an error with the message: "universalInterpretationProtocolID not recognized."
+2. Validate `parameters` against protocol json schema in the local db. If validates, proceed to step 3. If not, throw an error with the message: "parameters do not validate against the expected JSON Schema." (optional: provide naddr with the expected json schema.)
+3. Execute the function which corresponds to the interpretation protocol. 
 
 ```
-function processRequest = async (interpretationProtocolSlug, oParams) => {
-  switch(interpretationProtocolSlug) {
-    case "basicBrainstormFollowsOnlyProtocol"
-      return await result = fxn1(params)
-    case "basicdBrainstormMutesOnlyProtocol"
-      return await result = fxn2(params)
-    case "basicBrainstormReportsOnlyProtocol"
-      return await result = fxn2(params)    
-    case "recommendedBrainstormNotBotsProtocol" // follows, mutes, and reports (for now; may add more later)
-      return await result = fxn2(params)    
+const processRequest = async (request) => {
+  const universalInterpretationProtocolID = request.universalInterpretationProtocolID
+  const parameters = universalInterpretationProtocolID.paremeters
+  switch(universalInterpretationProtocolID) {
+    case "basicBrainstormFollowsOnlyInterpretationProtocol":
+      return await result = returnFollowsOnlyTable(params)
+    case "basicdBrainstormMutesOnlyInterpretationProtocol":
+      return await result = returnMutesOnlyTable(params)
+    case "basicBrainstormReportsOnlyInterpretationProtocol":
+      return await result = returnReportsOnlyTable(params)    
+    case "recommendedBrainstormNotBotsInterpretationProtocol": // follows, mutes, and reports (may add zaps, other sources of data later)
+      return await result = returnNotBotsTable(params)    
     default
-      return errorInterpretationProtocolNotRecognized
+      return errorInterpretationProtocolNotRecognized()
   }
+}
+
+const response = processRequest(request)
+```
+
+Follows:
+
+```
+const returnFollowsOnlyTable = (params) => {
+  const aRatings = []
+
+  /* build the aRatings table from follows */
+
+  const response = {
+    success: true,
+    ratingsTable: aRatings
+  }
+  return response;
+} 
+```
+
+Mutes:
+
+```
+const returnMutesOnlyTable = (params) => {
+  const aRatings = []
+
+  /* build the aRatings table from mutes */
+
+  const response = {
+    success: true,
+    ratingsTable: aRatings
+  }
+  return response;
+} 
+```
+
+```
+const errorInterpretationProtocolNotRecognized = () => {
+  const response = { success: false; message: "universalInterpretationProtocolID not recognized." }
+  return response;
 }
 ```
