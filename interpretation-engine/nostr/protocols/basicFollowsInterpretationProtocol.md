@@ -1,7 +1,7 @@
 follows
 =====
 
-The Calculation Engine and Interpretation Engine `universalInterpretationProtocolID` _must match exactly so that they can communicate unambiguously to each other_.
+The Calculation Engine and Interpretation Engine `universalInterpretationProtocolID` _must match exactly so that they can communicate unambiguously with each other_.
 
 The `name` and `title` do not need to match exactly.
 
