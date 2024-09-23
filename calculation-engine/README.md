@@ -18,29 +18,35 @@ CREATE CORE DATABASE: GrapevineCalculationEngine_core.db
 
 FOR EACH ROW j IN coreTable2, THERE WILL BE AN ADDITIONAL coreTable3_j, coreTable4_j, and coreTable5_j, where j = rawDataSourceCategoryID or rawDataSourceCategorySlug
 
-We will only build out in detail for j = nostrRelays for now.
-
 Raw Data Sources
 - coreTable3_j: rawDataSourcesForCategory_j -- each supported rawDataSourceCategory will have its own table of supported Raw Data Sources
 Examples:
-- coreTable3_nostrRelays: rawDataSourcesForCategory_nostr (e.g. wss://brainstorm.nostr1.com)
+- coreTable3_nostr: rawDataSourcesForCategory_nostr (e.g. wss://brainstorm.nostr1.com)
 - coreTable3_AI: rawDataSourcesForCategory_AI
 
 Interpretation Engines
 - coreTable4_j: interpretationEnginesForCategory_j -- Interp Engines for an individual rawDataSourceCategory
 Examples:
-- coreTable4_nostrRelays: interpretationEnginesForCategory_nostrRelays
+- coreTable4_nostr: interpretationEnginesForCategory_nostr
 - coreTable4_AI: interpretationEnginesForCategory_AI
 
 Interpretation Protocols
 - coreTable5_j: interpretationProtocolsForCategory_j -- available interpretation protocols for each rawDataSourceCategory (& for each Interp Engine)
 Examples:
-- coreTable5_nostrRelays: interpretationProtocolsForCategory_nostrRelays
+- coreTable5_nostr: interpretationProtocolsForCategory_nostr
 - coreTable5_AI: interpretationProtocolsForCategory_AI
 
-initialization code for rawDataSourceCategory = nostrRelays: [SQLite](./database-initialization-core.sql)
+### j = nostr
 
-initialization code for rawDataSourceCategory = AI: [SQLite](./database-initialization-core.sql)
+initialization code for rawDataSourceCategory = nostr: [SQLite](./database-initialization-nostr.sql)
+
+### j = Amazon
+
+in progress
+
+### j = AI
+
+in progress
 
 ## NEW DATABASE FOR EACH CUSTOMER / USER
 
