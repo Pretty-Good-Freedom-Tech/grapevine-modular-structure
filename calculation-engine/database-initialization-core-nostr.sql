@@ -32,17 +32,22 @@ INSERT INTO interpretationEngines_nostr [(interpretationEngineSlug, aSupportedIn
 -- coreTable5_nostr
 CREATE TABLE interpretationProtocols_nostr(
   ID INT PRIMARY KEY NOT NULL,
-  interpretationProtocolSlug TEXT NOT NULL, -- points to coreTable5, interpretationProtocols.slug; alternate: interpretationProtocolID INT NOT NULL, pointing to interpretationProtocols.id
+  universalInterpretationProtocolID TEXT UNIQUE NOT NULL, -- used to communicate with nostr interpretation engines; might be the same as the slug
 
   -- nostr-specific columns
-  parametersSchema TEXT NOT NULL, -- stringified JSON schema (json-schema.org) template for all required and optional parameters, which may be very different for each protocol. This may or may not include default values.
+  parametersJsonSchema TEXT NOT NULL, -- stringified JSON schema (json-schema.org) template for all required and optional parameters, which may be very different for each protocol. This may or may not include default values.
   
   -- ALTERNATE to parametersSchema:
   parametersSchemaNaddr TEXT NOT NULL, -- naddr to an event with the JSON Schema, managed by Brainstorm. Advantage: multiple (competing) services can point to this naddr and ensure compatibility with the wider community
+  
+  
+  -- might deprecate (replace with universalInterpretationProtocolID)
+  slug TEXT NOT NULL, -- points to coreTable5, interpretationProtocols.slug; alternate: interpretationProtocolID INT NOT NULL, pointing to interpretationProtocols.id
+
 );
 
-INSERT INTO interpretationProtocols_nostr [(interpretationProtocolSlug, parametersSchema)] VALUES ("basicFollowsInterpretation", "{ properties: { score: { type: float, default: 1.0 }, confidence: { type: float, default: 0.05 } }");
-INSERT INTO interpretationProtocols_nostr [(interpretationProtocolSlug, parametersSchema)] VALUES ("basicMutesInterpretation", "{ properties: { score: { type: float, default: 0.0 }, confidence: { type: float, default: 0.10 } }");
-INSERT INTO interpretationProtocols_nostr [(interpretationProtocolSlug, parametersSchema)] VALUES ("basicReportsInterpretation", "{ properties: { score: { type: float, default: 0.0 }, confidence: { type: float, default: 0.20 } }");
-INSERT INTO interpretationProtocols_nostr [(interpretationProtocolSlug, parametersSchema)] VALUES ("expandedReportsInterpretation", <more complex JSON handling multiple reportTypes> );
+INSERT INTO interpretationProtocols_nostr [(universalInterpretationProtocolID, parametersJsonSchema)] VALUES ("basicFollowsInterpretation", "{ properties: { score: { type: float, default: 1.0 }, confidence: { type: float, default: 0.05 } }");
+INSERT INTO interpretationProtocols_nostr [(universalInterpretationProtocolID, parametersJsonSchema)] VALUES ("basicMutesInterpretation", "{ properties: { score: { type: float, default: 0.0 }, confidence: { type: float, default: 0.10 } }");
+INSERT INTO interpretationProtocols_nostr [(universalInterpretationProtocolID, parametersJsonSchema)] VALUES ("basicReportsInterpretation", "{ properties: { score: { type: float, default: 0.0 }, confidence: { type: float, default: 0.20 } }");
+INSERT INTO interpretationProtocols_nostr [(universalInterpretationProtocolID, parametersJsonSchema)] VALUES ("expandedReportsInterpretation", <more complex JSON handling multiple reportTypes> );
 
