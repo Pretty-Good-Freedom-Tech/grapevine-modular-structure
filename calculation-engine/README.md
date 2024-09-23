@@ -21,6 +21,8 @@ CREATE CORE DATABASE: GrapevineCalculationEngine_core.db
 - coreTable6: grapeRankProtocols: used when calculating G. Each protocol includes one JSON with parameters (attenuation, rigor, etc)
 - coreTable7: protocolParameterSelections: for each user, for each protocol in coreTable5 and coreTable6, record the user's selected params
 
+### 3 new tables in the Core Database for each Data Source Category
+
 FOR EACH ROW j IN coreTable2, THERE WILL BE AN ADDITIONAL coreTable3_j, coreTable4_j, and coreTable5_j, where j = rawDataSourceCategoryID or rawDataSourceCategorySlug
 
 Raw Data Sources
