@@ -2,7 +2,7 @@
 
 ## API
 
-The Nostr Interpretation Engine communicates with the Calculation Engine via [API](../../APIs/calculationInterpretationAPIs.md)
+The Nostr Interpretation Engine communicates with the Calculation Engine via [API](../../APIs/calculationInterpretationAPI.md).
 
 ## Functions
 
