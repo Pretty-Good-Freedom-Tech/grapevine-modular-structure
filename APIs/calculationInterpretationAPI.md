@@ -3,6 +3,8 @@ the Calculation / Interpretation API
 
 # Request
 
+The Calculation Engine sends a request to the nostr Interpretation Engine. 
+
 An example request is the following:
 
 ```
@@ -27,14 +29,16 @@ Example of parameters before stringification:
 
 # Response
 
+The Interpretation Engine sends a response back to the Calculation Engine.
+
 ## success
+
+An example success response:
 
 ```
 {
   success: true,
-  payload: {
-    ratingsTable: ...
-  },
+  ratingsTable: ...
 }
 ```
 
