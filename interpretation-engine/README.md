@@ -1,5 +1,17 @@
-GrapeRank Nostr Interpretation Engine Database (cache)
+GrapeRank Interpretation Engine 
 =====
+
+## [nostr interpretation engine](./nostr/README.md)
+
+## Amazon interpretation engine 
+
+(in progress)
+
+## AI interpretation engine 
+
+(in progress)
+
+# Nostr Interpretation Engine Database (cache)
 
 An Interpretation Engine receives a request via API with:
 - interpretationProtocolSlug
