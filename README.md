@@ -5,15 +5,15 @@
 The Grapevine is divided into 4 categories of modules and 3 categories of APIs. (See Figure.)
 
 Categories of Modules:
-- Raw Data Source (e.g., a nostr relay)
-- Interpretation Engine: this is where GrapeRank-formatted Ratings are created (maybe a DVM)
-- Calculation Engine: runs the GrapeRank Equation and serves as the back end to the user interface
-- the Grapevine front end
+- **Raw Data Source** (e.g., a nostr relay)
+- **Interpretation Engine**: this is where GrapeRank-formatted Ratings are created (maybe a DVM)
+- **Calculation Engine**: runs the GrapeRank Equation and serves as the back end to the user interface
+- the **Grapevine front end**
 
 Categories of APIs:
-- interface between Raw Data and Interpretation Engine
-- interface between the Interpretation Engine and the Calculation Engine
-- interface between the Calculation Engine and the front end
+1. interface between Raw Data and Interpretation Engine
+2. the **Calculation / Interpretation AP**I: interface between the Interpretation Engine and the Calculation Engine
+3. the **Endpoint API**: interface between the Calculation Engine and the front end
 
 ![](https://i.nostr.build/uA0L6oc5nAzrU0iK.png)
 
