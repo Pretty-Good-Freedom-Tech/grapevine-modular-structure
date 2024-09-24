@@ -46,13 +46,13 @@ The JSON Schema, against which the parameters must validate.
                   type: float,
                   min: 0.0,
                   max: 1.0,
-                  default: 1.0,
+                  default: 0.0,
             },
             confidence: {
                   type: float,
                   min: 0.0,
                   max: 1.0,
-                  default: 0.05,
+                  default: 0.1,
             },
             pubkeys: {
                   type: array,
@@ -63,6 +63,7 @@ The JSON Schema, against which the parameters must validate.
             },
             context: {
                   type: string,
+                  default: notSpam,
             },
       }
 }
