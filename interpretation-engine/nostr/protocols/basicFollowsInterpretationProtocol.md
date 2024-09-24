@@ -33,6 +33,7 @@ Sample set of parameters that are communicated via API from the Calculation Engi
       confidence: 0.05,
       depth: 5,
       pubkeys: [...],
+      context: notSpam,
 }
 ```
 
