@@ -17,12 +17,25 @@ CREATE TABLE interpretationProtocols(
   title TEXT, -- optional
   description TEXT NOT NULL,
   parametersJsonSchema TEXT, -- stringified json that describes the object that holds parameters that must be communicated across the API
-  naddr TEXT, -- naddr that points to an event in which the json schema is stored (stringified and placed in content; kind?)
+  // OPTIONAL: use naddr to point to the jsonSchema in place of the parametersJsonSchema column
+  naddr TEXT, -- naddr that points to an event in which the json schema is stored (? stringified and placed in content; ? kind)
 );
 
-INSERT INTO interpretationProtocols [(universalInterpretationProtocolID, parametersJsonSchema)] VALUES ("basicFollowsInterpretationProtocol", "{ properties: { score: { type: float, default: 1.0 }, confidence: { type: float, default: 0.05 } }");
-INSERT INTO interpretationProtocols [(universalInterpretationProtocolID, parametersJsonSchema)] VALUES ("basicMutesInterpretationProtocol", "{ properties: { score: { type: float, default: 0.0 }, confidence: { type: float, default: 0.10 } }");
-INSERT INTO interpretationProtocols [(universalInterpretationProtocolID, parametersJsonSchema)] VALUES ("basicReportsInterpretationProtocol", "{ properties: { score: { type: float, default: 0.0 }, confidence: { type: float, default: 0.20 } }");
-INSERT INTO interpretationProtocols [(universalInterpretationProtocolID, parametersJsonSchema)] VALUES ("expandedReportsInterpretationProtocol", <more complex JSON handling multiple reportTypes> );
-INSERT INTO interpretationProtocols [(universalInterpretationProtocolID, parametersJsonSchema)] VALUES ("brainstormNotSpamInterpretationProtocol", <more complex JSON handling multiple reportTypes> );
+const followsParameters = <see protocol page for json schema>
+const mutesParameters = <see protocol page for json schema>
+const reportsParameters = <see protocol page for json schema>
+const expandedReportsParameters = <see protocol page for json schema>
+const brainstormNotSpamParameters = <see protocol page for json schema>
+  
+const sFollowsParameters = JSON.stringify(followsParameters)
+const sMutesParameters = JSON.stringify(mutesParameters)
+const sReportsParameters = JSON.stringify(reportsParameters)
+const sExpandedReportsParameters = JSON.stringify(expandedReportsParameters)
+const sBrainstormNotSpamParameters = JSON.stringify(brainstormNotSpamParameters)
+  
+INSERT INTO interpretationProtocols [(universalInterpretationProtocolID, parametersJsonSchema)] VALUES ("basicFollowsInterpretationProtocol", sFollowsParameters);
+INSERT INTO interpretationProtocols [(universalInterpretationProtocolID, parametersJsonSchema)] VALUES ("basicMutesInterpretationProtocol", sMutesParameters);
+INSERT INTO interpretationProtocols [(universalInterpretationProtocolID, parametersJsonSchema)] VALUES ("basicReportsInterpretationProtocol", sReportsParameters);
+INSERT INTO interpretationProtocols [(universalInterpretationProtocolID, parametersJsonSchema)] VALUES ("expandedReportsInterpretationProtocol", sExpandedReportsParameters );
+INSERT INTO interpretationProtocols [(universalInterpretationProtocolID, parametersJsonSchema)] VALUES ("brainstormNotSpamInterpretationProtocol", sBrainstormNotSpamParameters );
 
