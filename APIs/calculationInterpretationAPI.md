@@ -7,7 +7,7 @@ The Calculation Engine sends a `request` to the nostr Interpretation Engine, whi
 
 The `request` is an object with two properties: `universalInterpretationProtocolID` and `parameters`, each of which is a string.
 
-The request must validate against the following json schema:
+The request must validate against the `nostr interpretation request json schema`:
 
 ```
 {
