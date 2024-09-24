@@ -50,9 +50,14 @@ const processRequest = async (request) => {
       aRatings = await returnNotBotsTable(parameters)
       break
     /*
-    // alternate: return here instead of break
+    // alternate: return here instead of return below to fix async crap 
     case "recommendedBrainstormNotBotsInterpretationProtocol": // follows, mutes, and reports (may add zaps, other sources of data later)
-      return response = await returnNotBotsTable(parameters)
+      const aRatings = await returnNotBotsTable(parameters)
+      const response = {
+        success: true,
+        ratingsTable: aRatings
+      }
+      return response
     */
     default
       return response = errorInterpretationProtocolNotRecognized()
@@ -64,6 +69,7 @@ const processRequest = async (request) => {
   }
   return response
   // I'm not sure how to make sure to delay this return until after aRatings is returned. Maybe in place of each break above, return result
+  // maybe switch statement needs to be wrapped in an async function that returns aRatings?
 }
 
 const response = await processRequest(request)
