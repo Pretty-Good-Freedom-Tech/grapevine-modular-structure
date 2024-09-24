@@ -2,7 +2,9 @@
 
 ## API
 
-The Nostr Interpretation Engine communicates with the Calculation Engine via [API](../../APIs/calculationInterpretationAPI.md).
+The Nostr Interpretation Engine communicates with the Calculation Engine via an [API](../../APIs/calculationInterpretationAPI.md) via a two-step process:
+1. The Calculation Engine sends a `request` object to the Interpretation Engine.
+2. The Interpretation sends a `response` object to the Calculation Engine.
 
 It communicates with a nostr relay in the usual fashion.
 
@@ -12,7 +14,7 @@ See a list of [nostr interpretation protocols](./protocols/README.md)
 
 ## Functions
 
-The function `processRequest` takes the request object as input and outputs the response object, which is ready to be sent back to the Calculation Engine.
+The top-level function of the nostr Interpretation Engine is `processRequest`. `processRequest` takes the `request` object as input and outputs the `response` object, which is ready to be sent back to the Calculation Engine.
 
 Upon receiving a request via API, the Interpretation Engine performs the following steps:
 1. If `universalInterpretationProtocolID` is in the local db, proceed to step 2. If not, throw an error with the message: "universalInterpretationProtocolID not recognized."
