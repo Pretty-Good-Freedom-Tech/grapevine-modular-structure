@@ -2,7 +2,7 @@
 
 ## API
 
-The Nostr Interpretation Engine communicates with the Calculation Engine via an [API](../../APIs/calculationInterpretationAPI.md) via a two-step process:
+The Nostr Interpretation Engine communicates with the Calculation Engine via an [API](../../APIs/calculationInterpretationAPI.md) in a two-step process:
 1. The Calculation Engine sends a `request` object to the Interpretation Engine.
 2. The Interpretation sends a `response` object to the Calculation Engine.
 
