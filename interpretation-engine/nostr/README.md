@@ -4,9 +4,11 @@ The Nostr Interpretation Engine communicates with the Calculation Engine via an 
 1. The Calculation Engine sends a `request` object to the Interpretation Engine.
 2. The Interpretation Engine sends a `response` object to the Calculation Engine.
 
-To generate the `response`, the Interpretation Engine must execute one of a list of known [nostr interpretation protocols](./protocols/README.md). For each protocol, there will be a single `governing function` which executes that protocol. These functions will communication with one or more nostr relays in the usual fashion. Beginner protocols will be limited to a single nostr event kind, but advanced protocols may request multiple event kinds.
+To generate the `response`, the Interpretation Engine must execute one of a list of known [nostr interpretation protocols](./protocols/README.md). For each protocol, there will be a single `governing function` which executes that protocol. These "second level" functions will communication with one or more nostr relays in the usual fashion. Beginner protocols will be limited to a single nostr event kind per protocol, but advanced protocols may request multiple event kinds.
 
 ## Functions
+
+### Top level function
 
 The top-level function of the nostr Interpretation Engine is `processRequest`. `processRequest` takes the `request` object as input and outputs the `response` object, which is ready to be sent back to the Calculation Engine.
 
@@ -48,7 +50,7 @@ const processRequest = async (request) => {
 const response = await processRequest(request)
 ```
 
-### Protocol-specific _governing functions_
+### Second level functions (i.e., the protocol-specific _governing functions_)
 
 Follows:
 
