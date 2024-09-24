@@ -69,6 +69,7 @@ The JSON Schema, against which the parameters must validate.
             },
             context: {
                   type: string,
+                  default: notSpam,
             },
       }
 }
