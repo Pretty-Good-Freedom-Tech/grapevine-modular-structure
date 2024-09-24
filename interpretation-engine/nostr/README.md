@@ -35,7 +35,9 @@ const processRequest = async (request) => {
     case "basicdBrainstormMutesOnlyInterpretationProtocol":
       return result = await returnMutesOnlyTable(parameters)
     case "basicBrainstormReportsOnlyInterpretationProtocol":
-      return result = await returnReportsOnlyTable(parameters)    
+      return result = await returnReportsOnlyTable(parameters)
+    case "expandedBrainstormReportsOnlyInterpretationProtocol":
+      return result = await returnExpandedReportsOnlyTable(parameters)  
     case "recommendedBrainstormNotBotsInterpretationProtocol": // follows, mutes, and reports (may add zaps, other sources of data later)
       return result = await returnNotBotsTable(parameters)    
     default
@@ -79,6 +81,8 @@ const returnMutesOnlyTable = async (params) => {
   return response;
 } 
 ```
+
+Likewise for the Reports, Expanded Reports, and Brainstorm Not Spam protocols.
 
 ### Error functions 
 
