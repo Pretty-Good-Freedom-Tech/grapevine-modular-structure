@@ -1,16 +1,10 @@
 # Nostr Interpretation Engine 
 
-## API
-
 The Nostr Interpretation Engine communicates with the Calculation Engine via an [API](../../APIs/calculationInterpretationAPI.md) in a two-step process:
 1. The Calculation Engine sends a `request` object to the Interpretation Engine.
 2. The Interpretation sends a `response` object to the Calculation Engine.
 
-It communicates with a nostr relay in the usual fashion.
-
-## Protocols
-
-See a list of [nostr interpretation protocols](./protocols/README.md)
+To generate the `response`, the Interpretation Engine must execute one of a list of known [nostr interpretation protocols](./protocols/README.md). For each protocol, there will be a single governing function which executes that protocol. These functions will communication with one or more nostr relays in the usual fashion. Beginner protocols will be limited to a single nostr event kind, but advanced protocols may request multiple event kinds.
 
 ## Functions
 
