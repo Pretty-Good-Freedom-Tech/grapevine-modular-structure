@@ -15,7 +15,9 @@ Reports
 
 ### description
 
-This interpretation protocol receives an array of `pubkeys`, looks up all kind ?? notes for each pubkey, and generates a rating for each report with the `score` and `confidence` as provided in the parameters. No distinction will be made based on `reportType`. Note that unlike the `follows` protocol, the `depth` parameter is not expected in the `parameters` object of the `request`.
+This interpretation protocol follows [NIP-56](https://github.com/nostr-protocol/nips/blob/master/56.md).
+
+This interpretation protocol receives an array of `pubkeys`, looks up all kind 1984 notes for each pubkey, and generates a rating for each report with the `score` and `confidence` as provided in the parameters. No distinction will be made based on the NIP-56 `reportType`. Note that unlike the `follows` protocol, the `depth` parameter is not expected in the `parameters` object of the `request`.
 
 By default, each rating will contain the string: `notSpam` into the context field. This can be overriden by inclusion of the optional `context` in the input parameters.
 
