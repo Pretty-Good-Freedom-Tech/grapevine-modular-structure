@@ -31,20 +31,39 @@ const processRequest = async (request) => {
   \\ return result = errorInvalidParameters()
   \\ Alternatively, process errors of this type individually inside each governing protocol function.
 
+  const aRatings = []
+
   switch(universalInterpretationProtocolID) {
     case "basicBrainstormFollowsOnlyInterpretationProtocol":
-      return result = await returnFollowsOnlyTable(parameters)
+      aRatings = await returnFollowsOnlyTable(parameters)
+      break
     case "basicdBrainstormMutesOnlyInterpretationProtocol":
-      return result = await returnMutesOnlyTable(parameters)
+      aRatings = await returnMutesOnlyTable(parameters)
+      break
     case "basicBrainstormReportsOnlyInterpretationProtocol":
-      return result = await returnReportsOnlyTable(parameters)
+      aRatings = await returnReportsOnlyTable(parameters)
+      break
     case "expandedBrainstormReportsOnlyInterpretationProtocol":
-      return result = await returnExpandedReportsOnlyTable(parameters)  
+      aRatings = await returnExpandedReportsOnlyTable(parameters)
+      break
     case "recommendedBrainstormNotBotsInterpretationProtocol": // follows, mutes, and reports (may add zaps, other sources of data later)
-      return result = await returnNotBotsTable(parameters)    
+      aRatings = await returnNotBotsTable(parameters)
+      break
+    /*
+    // alternate: return here instead of break
+    case "recommendedBrainstormNotBotsInterpretationProtocol": // follows, mutes, and reports (may add zaps, other sources of data later)
+      return response = await returnNotBotsTable(parameters)
+    */
     default
-      return result = errorInterpretationProtocolNotRecognized()
+      return response = errorInterpretationProtocolNotRecognized()
   }
+
+  const response = {
+    success: true,
+    ratingsTable: aRatings
+  }
+  return response
+  // I'm not sure how to make sure to delay this return until after aRatings is returned. Maybe in place of each break above, return result
 }
 
 const response = await processRequest(request)
@@ -57,14 +76,8 @@ Follows:
 ```
 const returnFollowsOnlyTable = async (params) => {
   const aRatings = []
-
   /* build the aRatings table from follows */
-
-  const response = {
-    success: true,
-    ratingsTable: aRatings
-  }
-  return response;
+  return aRatings;
 } 
 ```
 
@@ -73,18 +86,40 @@ Mutes:
 ```
 const returnMutesOnlyTable = async (params) => {
   const aRatings = []
-
   /* build the aRatings table from mutes */
-
-  const response = {
-    success: true,
-    ratingsTable: aRatings
-  }
-  return response;
+  return aRatings;
 } 
 ```
 
-Likewise for the Reports, Expanded Reports, and Brainstorm Not Spam protocols.
+Reports:
+
+```
+const returnReportsOnlyTable = async (params) => {
+  const aRatings = []
+  /* build the aRatings table from reports */
+  return aRatings;
+} 
+```
+
+Expanded Reports:
+
+```
+const returnExpandedReportsOnlyTable = async (params) => {
+  const aRatings = []
+  /* build the aRatings table from reports, limited to the indicated report types */
+  return aRatings;
+} 
+```
+
+Brainstorm Not Spam:
+
+```
+const returnMutesOnlyTable = async (params) => {
+  const aRatings = []
+  /* build the aRatings table from follows, mutes, and reports */
+  return aRatings;
+} 
+```
 
 ### Error functions 
 
