@@ -1,22 +1,41 @@
 the Calculation / Interpretation API
 =====
 
-# Request
+The Calculation Engine sends a `request` to the nostr Interpretation Engine, which returns a `response`.
 
-The Calculation Engine sends a request to the nostr Interpretation Engine. 
+## Request
+
+The `request` is an object with two properties: `universalInterpretationProtocolID` and `parameters`, each of which is a string.
+
+The request must validate against the following json schema:
+
+```
+{
+  required: [ "universalInterpretationProtocolID", "parameters" ],
+  properties: {
+    universalInterpretationProtocolID: {
+      type: string
+    },
+    parameters: {
+      type: string
+    },
+  }
+}
+```
+where: 
+- `universalInterpretationProtocolID` must be recognized, i.e. must be in the Interpretation Engine's database of supported protocols
+- `parameters` is a stringified version of an object, the schema of which is protocol-specific.
 
 An example request is the following:
 
 ```
 {
   universalInterpretationProtocolID: basicFollowsInterpretationProtocol
-  parameters: ...
+  parameters: ... (see below)
 }
 ```
 
-Where `parameters` is a stringified version of an object, the schema of which is protocol-specific.
-
-Example of parameters before stringification:
+where `parameters` is the stringified object:
 
 ```
 {
@@ -24,14 +43,15 @@ Example of parameters before stringification:
   confidence: 0.05,
   depth: 5,
   pubkeys: [...],
+  context: notSpam
 }
 ```
 
-# Response
+## Response
 
 The Interpretation Engine sends a response back to the Calculation Engine.
 
-## success
+### success
 
 An example success response:
 
@@ -63,7 +83,7 @@ The `ratingsTable` is a stringified (or should we leave this as an array?) array
 ]
 ```
 
-## Error responses
+### Error responses
 
 ```
 {
