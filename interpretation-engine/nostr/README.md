@@ -13,7 +13,7 @@ The top-level function of the nostr Interpretation Engine is `processRequest`. `
 Upon receiving a request via API, the Interpretation Engine performs the following steps:
 1. Make sure the `request` object validates against the `nostr interpretation engine request json schema` (see [API](../../APIs/calculationInterpretationAPI.md).)
 2. If `universalInterpretationProtocolID` is in the `interpretationProtocols` table of the [local database](./database-initialization-core.sql), proceed to the next step. If not, throw an error with the message: "universalInterpretationProtocolID not recognized."
-3. Validate `parameters` against protocol json schema in the local db. For example, see the json schema for the [beginner follows protocol](./protocols/basicFollowsInterpretationProtocol.md) If validates, proceed to the next step. If not, throw an error with the message: "Parameters do not validate against the expected JSON Schema." (optional: provide naddr with the expected json schema.)
+3. Validate `parameters` against protocol json schema in the `interpretationProtocols` table of the local database. For example, see the json schema for the [beginner follows protocol](./protocols/basicFollowsInterpretationProtocol.md). If it validates, proceed to the next step. If not, throw an error with the message: "Parameters do not validate against the expected JSON Schema." (optional: provide naddr with the expected json schema.)
 4. Execute the function which corresponds to the interpretation protocol. 
 
 ```
