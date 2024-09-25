@@ -14,3 +14,6 @@ GRaaS, the Grapevine Relay as a Service, is similar to a Personalized Grapevine 
 
 ## NIP-51 lists
 
+G and R tables are exported from the Grapevine Calculation Engine. The format depends on whether they are being exported to a Grapevine Relay or to a vanilla nostr relay.
+
+
