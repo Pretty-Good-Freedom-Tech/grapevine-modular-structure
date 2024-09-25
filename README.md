@@ -1,12 +1,13 @@
 # Modular Structure of the Grapevine
 
-The Grapevine is divided into 4 categories of modules and 4 categories of APIs. (See the Figure below.)
+The Grapevine is divided into 5 categories of modules and 4 categories of APIs. (See the Figure below.)
 
 Categories of Modules:
 - **Raw Data Source** (e.g., a nostr relay)
 - [**Interpretation Engine**](./interpretation-engine/README.md): this is where GrapeRank-formatted Ratings are created (maybe a DVM)
 - [**Calculation Engine**](./calculation-engine/README.md): runs the GrapeRank Equation and serves as the back end to the user interface
 - the **Grapevine front end**
+- the **Personalized Grapevine WoT Relay**
 
 Categories of APIs:
 1. interface between Raw Data and Interpretation Engine
