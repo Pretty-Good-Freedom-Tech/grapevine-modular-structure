@@ -17,7 +17,7 @@ Categories of APIs:
 3. the [**Endpoint API**](./APIs/endpointAPI.md): interface between the Calculation Engine and the front end
 4. the [**Client API**](./APIs/clientAPI.md): interface between the Calculation Engine and the third party nostr client, e.g. Coracle
 
-![](https://i.nostr.build/S31KyHJqdqUF5y7p.png)
+![](https://i.nostr.build/qAWJU24TUbHYdrPS.png)
 
 ## Modules
 
