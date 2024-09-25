@@ -7,7 +7,7 @@ Categories of Modules:
 - [**Interpretation Engine**](./interpretation-engine/README.md): this is where GrapeRank-formatted Ratings are created (maybe a DVM)
 - [**Calculation Engine**](./calculation-engine/README.md): runs the GrapeRank Equation and serves as the back end to the user interface
 - the **Grapevine front end**
-- the [**Personalized Grapevine WoT Relay**](./grapevine-relay/README.md): stores Grapevine-specific data, including G (and R) tables in the form of NIP-51 lists
+- the [**Grapevine Relay**](./grapevine-relay/README.md): stores Grapevine-specific data, including G (and R) tables in the form of NIP-51 lists. These come in two flavors: the Personalized Grapevine WoT Relay and GRaasS: the Grapevine Relay as a Service
 
 Categories of APIs:
 1. interface between Raw Data and Interpretation Engine
