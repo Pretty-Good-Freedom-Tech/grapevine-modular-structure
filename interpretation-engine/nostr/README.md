@@ -19,18 +19,51 @@ Upon receiving a request via API, the Interpretation Engine performs the followi
 4. Execute the function which corresponds to the interpretation protocol. 
 
 ```
+const aSupportedProtocols = [
+  "basicBrainstormFollowsOnlyInterpretationProtocol",
+  "basicdBrainstormMutesOnlyInterpretationProtocol",
+  "basicBrainstormReportsOnlyInterpretationProtocol",
+  "expandedBrainstormReportsOnlyInterpretationProtocol",
+  "recommendedBrainstormNotBotsInterpretationProtocol",
+]
+
 const processRequest = async (request) => {
 
-  \\ Validate the request object. If invalid
-  \\ return result = errorInvalidRequest()
+  /***************** Validate request in 3 steps:
+  1. validate request against the request json schema
+  2. make sure the interpretation protocol is recognized
+  3. make sure the paramters validate as expected for the given interpretation protocol
+
+  May want to move these steps into a different function
+  ******************/
+
+  // VALIDATION STEP . Validate the request object. If invalid, return an error
+  const valid = validateRequest(request) // see below
+  if (!valid) {
+    // console.log(validate.errors)
+    return result = errorInvalidRequest() // option: incorporate validate.errors into the response
+  }
 
   const universalInterpretationProtocolID = request.universalInterpretationProtocolID
   const parameters = universalInterpretationProtocolID.paremeters
 
-  \\ Validate parameters. If invalid, throw an error:
-  \\ return result = errorInvalidParameters()
-  \\ Alternatively, process errors of this type individually inside each governing protocol function.
+  // VALIDATION STEP 2. make sure universalInterpretationProtocolID is recognized; if not, return an error
+  if (!aSupportedProtocols.includes(universalInterpretationProtocolID)) {
+    return response = errorInterpretationProtocolNotRecognized(universalInterpretationProtocolID)
+  }
 
+  // VALIDATION STEP 3. Validate parameters. If invalid, throw an error.
+  // Alternatively, process errors of this type individually inside each governing protocol function.
+  // TODO: wrap in try ... catch
+  const { universalInterpretationProtocolID, parameters } = request
+
+  const valid2 = validateParameters(request) // see below
+  if (!valid2) {
+    // console.log(validate2.errors)
+    return result = errorInvalidParameters() // option: incorporate validate.errors into the response
+  }
+  /*********** DONE WITH VALIDATION ***************/
+  
   const aRatings = []
 
   switch(universalInterpretationProtocolID) {
@@ -60,7 +93,7 @@ const processRequest = async (request) => {
       return response
     */
     default
-      return response = errorInterpretationProtocolNotRecognized()
+      return response = errorInterpretationProtocolNotRecognized() // may be moving this error to before the switch
   }
 
   const response = {
@@ -154,3 +187,29 @@ const errorInvalidParameters = () => {
 }
 ```
 
+### Validation functions
+
+```
+import Ajv from "ajv"
+import { request-schema } from (?) // see API docs for `nostr interpretation engine request json schema`
+
+const ajv = new Ajv()
+
+const validateRequest = (request) => {
+  // TODO: ? wrap in try ... catch
+  const validate = ajv.compile(request-schema)
+  const valid = validate(request)
+  return valid
+}
+
+const validateParameters = (request) => {
+  // TODO: ? wrap in try ... catch
+  const oParams = JSON.parse(request.parameters)
+  const universalInterpretationProtocolID = request.universalInterpretationProtocolID
+  const params-schema = (function which fetches json schema corresponding to the universalInterpretationProtocolID)
+  const validate = ajv.compile(params-schema)
+  const valid = validate(oParams)
+  return valid
+}
+
+```
