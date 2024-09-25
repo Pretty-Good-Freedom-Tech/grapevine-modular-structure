@@ -1,8 +1,6 @@
 # Modular Structure of the Grapevine
 
-## Modules and APIs
-
-The Grapevine is divided into 4 categories of modules and 3 categories of APIs. (See Figure.)
+The Grapevine is divided into 4 categories of modules and 4 categories of APIs. (See the Figure below.)
 
 Categories of Modules:
 - **Raw Data Source** (e.g., a nostr relay)
@@ -13,9 +11,12 @@ Categories of Modules:
 Categories of APIs:
 1. interface between Raw Data and Interpretation Engine
 2. the [**Calculation / Interpretation API**](./APIs/calculationInterpretationAPI.md): interface between the Interpretation Engine and the Calculation Engine
-3. the **Endpoint API**: interface between the Calculation Engine and the front end
+3. the [**Endpoint API**](./APIs/endpointAPI.md): interface between the Calculation Engine and the front end
+4. the **Client API**: interface between the Calculation Engine and the third party nostr client, e.g. Coracle
 
-![](https://i.nostr.build/uA0L6oc5nAzrU0iK.png)
+![](https://i.nostr.build/dlAb0Dikfx0zNEI8.png)
+
+## Modules
 
 ### Module type 1: Raw Data Source
 
@@ -84,6 +85,10 @@ The user can:
 - buy or sell Scorecards, either individually or as a list, from other users
 
 (list may be incomplete)
+
+### API type 4: Calculation Engine <--> nostr clients
+
+
 
 ## Sources of Raw Data
 
