@@ -12,7 +12,7 @@ Categories of APIs:
 1. interface between Raw Data and Interpretation Engine
 2. the [**Calculation / Interpretation API**](./APIs/calculationInterpretationAPI.md): interface between the Interpretation Engine and the Calculation Engine
 3. the [**Endpoint API**](./APIs/endpointAPI.md): interface between the Calculation Engine and the front end
-4. the **Client API**: interface between the Calculation Engine and the third party nostr client, e.g. Coracle
+4. the [**Client API**](./APIs/clientAPI.md): interface between the Calculation Engine and the third party nostr client, e.g. Coracle
 
 ![](https://i.nostr.build/dlAb0Dikfx0zNEI8.png)
 
