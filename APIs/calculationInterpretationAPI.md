@@ -5,7 +5,7 @@ The Calculation Engine sends a `request` to the nostr Interpretation Engine, whi
 
 ## Request
 
-The `request` is an object with three properties: `source`, `universalInterpretationProtocolID` and `parameters`, each of which is a string.
+The `request` is an object with three properties: `source`, `universalInterpretationProtocolID` and `parameters`.
 
 The request must validate against the `nostr interpretation engine request json schema`:
 
@@ -21,7 +21,7 @@ The request must validate against the `nostr interpretation engine request json 
       type: string
     },
     parameters: {
-      type: string
+      type: object
     },
   }
 }
@@ -40,7 +40,7 @@ An example request is the following:
 }
 ```
 
-where `parameters` is the stringified object:
+where `parameters` is the object:
 
 ```
 {
