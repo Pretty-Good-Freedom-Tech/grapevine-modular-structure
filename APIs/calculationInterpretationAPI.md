@@ -34,6 +34,7 @@ An example request is the following:
 
 ```
 {
+  source: nostr
   universalInterpretationProtocolID: basicFollowsInterpretationProtocol
   parameters: ... (see below)
 }
