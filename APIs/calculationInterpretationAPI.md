@@ -5,14 +5,18 @@ The Calculation Engine sends a `request` to the nostr Interpretation Engine, whi
 
 ## Request
 
-The `request` is an object with two properties: `universalInterpretationProtocolID` and `parameters`, each of which is a string.
+The `request` is an object with three properties: `source`, `universalInterpretationProtocolID` and `parameters`, each of which is a string.
 
 The request must validate against the `nostr interpretation engine request json schema`:
 
 ```
 {
-  required: [ "universalInterpretationProtocolID", "parameters" ],
+  required: [ "source", "universalInterpretationProtocolID", "parameters" ],
   properties: {
+    source: {
+      type: string,
+      enum: [ " nostr" ]
+    },
     universalInterpretationProtocolID: {
       type: string
     },
