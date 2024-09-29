@@ -109,8 +109,9 @@ CREATE TABLE worldviewNodes(
   slug TEXT UNIQUE NOT NULL,
   name TEXT NOT NULL,
   description TEXT,
+  grapeRankCalculationParamSpecs TEXT NOT NULL, -- stringified JSON; specify attenuationFactor, rigor, etc.
 
-  grapeRankScorecardTableID INT NOT NULL, -- ? this does NOT have to be unique, bc same G may be used in more than one worldview and may have different name, description
+  grapeRankScorecardTableID INT NOT NULL, -- ?? this does NOT have to be unique, bc same G may be used in more than one worldview and may have different name, description
 );
 
 -- userTable7
