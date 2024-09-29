@@ -18,7 +18,7 @@ CREATE TABLE interpretationProtocols(
   description TEXT NOT NULL,
   parametersJsonSchema TEXT, -- stringified json that describes the object that holds parameters that must be communicated across the API
   // OPTIONAL: use naddr to point to the jsonSchema in place of the parametersJsonSchema column
-  naddr TEXT, -- naddr that points to an event in which the json schema is stored (? stringified and placed in content; ? kind)
+  parametersJsonSchemaNaddr TEXT, -- naddr that points to an event in which the json schema is stored (? stringified and placed in content; ? kind)
 );
 
 const followsParameters = <see protocol page for json schema>
