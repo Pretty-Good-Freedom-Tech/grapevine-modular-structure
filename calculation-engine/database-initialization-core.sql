@@ -3,7 +3,7 @@
 GrapevineCalculationEngine_core.db
 
 -- coreTable1
-CREATE TABLE users(
+CREATE TABLE IF NOT EXISTS users(
   ID INT PRIMARY KEY NOT NULL,
   pubkey VARCHAR(255) UNIQUE NOT NULL
 )
