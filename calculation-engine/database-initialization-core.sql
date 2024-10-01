@@ -6,14 +6,14 @@ GrapevineCalculationEngine_core.db
 CREATE TABLE IF NOT EXISTS users(
   ID INT PRIMARY KEY NOT NULL,
   pubkey VARCHAR(255) UNIQUE NOT NULL
-)
+);
 
 -- coreTable2
-CREATE TABLE rawDataSourceCategories(
+CREATE TABLE IF NOT EXISTS rawDataSourceCategories(
   ID INT PRIMARY KEY NOT NULL,
   SLUG TEXT UNIQUE NOT NULL,
   NAME TEXT,
-  DESCRIPTION TEXT,
+  DESCRIPTION TEXT
 );
 
 INSERT INTO rawDataSourceCategories [(slug, name)] VALUES ("nostr", "nostr relays"); -- id: 0
@@ -21,7 +21,7 @@ INSERT INTO rawDataSourceCategories [(slug, name)] VALUES ("chatGPT", "Chat GPT"
 INSERT INTO rawDataSourceCategories [(slug, name)] VALUES ("Amazon", "Amazon"); -- id: 2
 
 -- coreTable3
-CREATE TABLE rawDataSources(
+CREATE TABLE IF NOT EXISTS rawDataSources(
   ID INT PRIMARY KEY NOT NULL,
   slug TEXT UNIQUE NOT NULL,
   name TEXT NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE rawDataSources(
 INSERT INTO rawDataSources [(slug, name, rawDataSourceCategorySlug)] VALUES ("brainstormNostrRelay", "The Awesome Brainstorm Nostr Relay", "nostr" );
 
 -- coreTable4
-CREATE TABLE interpretationEngines(
+CREATE TABLE IF NOT EXISTS interpretationEngines(
   ID INT PRIMARY KEY NOT NULL,
   slug TEXT UNIQUE NOT NULL,
   name TEXT,
@@ -49,7 +49,7 @@ CREATE TABLE interpretationEngines(
 INSERT INTO interpretationEngines [(slug, name, rawDataSourceCategorySlug )] VALUES ("BrainstormNostrInterpEngine", "The Awesome Brainstorm Nostr Interpretation Engine", "nostr" );
 
 -- coreTable5
-CREATE TABLE interpretationProtocols(
+CREATE TABLE IF NOT EXISTS interpretationProtocols(
   ID INT PRIMARY KEY NOT NULL,
   slug TEXT UNIQUE NOT NULL,
   name TEXT NOT NULL,
@@ -82,7 +82,7 @@ INSERT INTO interpretationProtocols [(slug, name, rawDataSourceCategorySlug )] V
 INSERT INTO interpretationProtocols [(slug, name, rawDataSourceCategorySlug )] VALUES ("basicAmazonInterpretation", "Amazon Product Ratings Interpretation", "Amazon" );
 
 -- coreTable6
-CREATE TABLE grapeRankProtocols(
+CREATE TABLE IF NOT EXISTS grapeRankProtocols(
   ID INT PRIMARY KEY NOT NULL,
   slug TEXT UNIQUE NOT NULL,
   name TEXT NOT NULL,
@@ -99,7 +99,7 @@ INSERT INTO grapeRankProtocols [(slug, parametersSchema )] VALUES ("basicGrapevi
 INSERT INTO grapeRankProtocols [(slug, parametersSchema )] VALUES ("basic5StarProductCalculation", "{ properties: { defaultProductScore: { type: float, min: 0, max: 5, default: 0.0 }, defaultProductScoreConfidence: { type: float, min: 0, max: 1, default: 0.05 } }}" );
 
 -- coreTable7
-CREATE TABLE protocolParameterSelections(
+CREATE TABLE IF NOT EXISTS protocolParameterSelections(
   ID INT PRIMARY KEY NOT NULL,
   userID ID UNIQUE NOT NULL,
   protocolCategoryTableName TEXT NOT NULL, -- "interpretationProtocols" or "grapeRankProtocols" or (coreTable5 or coreTable6) 
@@ -141,7 +141,7 @@ REVIEW: coreTable4b and coreTable4c are completely deprecated and fully replaced
 */
 
 -- coreTable4b
-CREATE TABLE defaultInterpretationProtocolSolutions(
+CREATE TABLE IF NOT EXISTS defaultInterpretationProtocolSolutions(
   ID INT PRIMARY KEY NOT NULL,
   interpretationProtocolId INT NOT NULL,
   slug TEXT NOT NULL,
@@ -156,7 +156,7 @@ INSERT INTO defaultInterpretationProtocolSolutions [(interpretationProtocolId, n
 INSERT INTO defaultInterpretationProtocolSolutions [(interpretationProtocolId, name)] VALUES (3, "Alternate Brainstorm Reports Interpretation"); -- params: score = 0, confidence = 0.2 for all reportTypes except nudity, which is ignored
 
 -- table4c
-CREATE TABLE userInterpretationProtocolSolutions(
+CREATE TABLE IF NOT EXISTS userInterpretationProtocolSolutions(
   ID INT PRIMARY KEY NOT NULL,
   interpretationProtocolId INT NOT NULL,
   userId INT NOT NULL,
