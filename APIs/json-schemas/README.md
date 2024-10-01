@@ -1,7 +1,7 @@
 JSON Schemas
 =====
 
-This is a compendium of the various json schemas that will be used across APIs.
+This is a compendium of the various json schemas that will be used across APIs. At some point each json schema will be stored in a nostr note and addressed by naddr, authored by a PGFT or brainstorm npub, as per the tapestry protocol. Eventually, the task of maintaining each naddr will be taken over by your grapevine.
 
 ## interpretation protocol paramater schemas
 
