@@ -56,11 +56,11 @@ INSERT INTO interpretationEngines (slug, name, aSupportedRawDataSourceCategorySl
 -- coreTable5
 CREATE TABLE IF NOT EXISTS interpretationProtocols(
   ID SERIAL PRIMARY KEY,
-  slug TEXT UNIQUE NOT NULL,
+  slug TEXT NOT NULL,
   name TEXT,
   description TEXT,
-  rawDataSourceCategorySlug TEXT NOT NULL -- points to coreTable2, rawDataSourceCategories.slug (alternate: rawDataSourceCategoryID INT NOT NULL, points to rawDataSourceCategories.id)
-  UNIQUE slug, rawDataSourceCategorySlug
+  rawDataSourceCategorySlug TEXT NOT NULL, -- points to coreTable2, rawDataSourceCategories.slug (alternate: rawDataSourceCategoryID INT NOT NULL, points to rawDataSourceCategories.id)
+  UNIQUE (slug, rawDataSourceCategorySlug )
 );
 
 -- universal (rawDataSourceCategorySlug is null or 'all' or 'GrapeRank')
