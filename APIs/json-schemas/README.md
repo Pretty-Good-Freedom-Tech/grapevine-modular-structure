@@ -15,8 +15,8 @@ This is a compendium of the various json schemas that will be used across APIs.
 
 ## grapeRank protocol parameter schemas
 
-- basicGrapevineNetwork
-- basic5StarProductCalculation
+- [basicGrapevineNetwork](../../calculation-engine/graperank-protocols/basicGrapevineNetwork.md)
+- [basic5StarProductCalculation](../../calculation-engine/graperank-protocols/basic5StarProductCalculation.md)
 
 ## APIs
 
