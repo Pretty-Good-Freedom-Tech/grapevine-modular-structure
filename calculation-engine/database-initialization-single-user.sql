@@ -12,7 +12,8 @@ CREATE TABLE grapeRankRatings(
   score FLOAT NOT NULL, -- between 0 and 1 (for now)
   confidence DECIMAL(5,4) NOT NULL, -- between 0 and 1 
   lastUpdated TIMESTAMP NOT NULL,
-  CONSTRAINT atom_id UNIQUE (rater, ratee, context)
+  -- CONSTRAINT atom_id UNIQUE (rater, ratee, context) -- ? sqlite3 syntax
+  UNIQUE (rater, ratee, context) -- postgresql syntax
 );
 /*
 An "atom" refers to the 3-tuple: rater, ratee, context, which together uniquely specify an individual GrapeRank Rating.
@@ -53,7 +54,8 @@ CREATE TABLE grapeRankScorecards(
   confidence DECIMAL(5,4) NOT NULL,
   weights FLOAT NOT NULL,
   lastUpdated TIMESTAMP NOT NULL,
-  CONSTRAINT atom_id UNIQUE (observer, observee, context)
+  -- CONSTRAINT atom_id UNIQUE (observer, observee, context) -- ? sqlite3 syntax
+  UNIQUE (observer, observee, context) -- postgresql syntax
   -- ??? protocol, parameters, etc? Or should these be absorbed somehow into "context"??
   -- ??? source, which could be an Interpretation Engine or another user. If another user, it may or may not be the observer.
 );
