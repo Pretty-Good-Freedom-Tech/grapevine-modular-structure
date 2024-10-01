@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS interpretationProtocols(
   name TEXT,
   description TEXT,
   rawDataSourceCategorySlug TEXT NOT NULL -- points to coreTable2, rawDataSourceCategories.slug (alternate: rawDataSourceCategoryID INT NOT NULL, points to rawDataSourceCategories.id)
+  UNIQUE slug, rawDataSourceCategorySlug
 );
 
 -- universal (rawDataSourceCategorySlug is null or 'all' or 'GrapeRank')
@@ -94,19 +95,20 @@ INSERT INTO grapeRankProtocols (slug, parametersJsonSchema ) VALUES ('basic5Star
 -- INSERT INTO grapeRankProtocols (slug, parametersJsonSchema ) VALUES ('basic5StarProductCalculation', '{ properties: { defaultProductScore: { type: float, min: 0, max: 5, default: 0.0 }, defaultProductScoreConfidence: { type: float, min: 0, max: 1, default: 0.05 } }}' );
 
 -- coreTable7
-CREATE TABLE IF NOT EXISTS protocolParameterSelections(
+CREATE TABLE IF NOT EXISTS parameters(
   ID SERIAL PRIMARY KEY,
-  userID ID UNIQUE NOT NULL,
-  protocolCategoryTableName TEXT NOT NULL, -- 'interpretationProtocols' or 'grapeRankProtocols' or (coreTable5 or coreTable6) 
-  protocolSlug TEXT NOT NULL, [protocolCategoryTableName].slug
+  userID INT UNIQUE NOT NULL,
+  protocolTableName TEXT NOT NULL, -- 'interpretationProtocols' or 'grapeRankProtocols' or (coreTable5 or coreTable6) 
+  protocolSlug TEXT NOT NULL, -- [protocolCategoryTableName].slug
+  -- protocolID  INT NOT NULL, -- alternate to protocolSlug; [protocolCategoryTableName].id
   
-  selectedParameters TEXT NOT NULL, -- stringified JSON that contains the parameters with selected values
+  obj JSONB NOT NULL, -- object that contains the parameters with selected values
   
   -- ALTERNATE to selectedParameters:
-  selectedParametersNaddr TEXT NOT NULL, -- naddr to an event with the JSON Schema, managed by Brainstorm. Advantage: multiple (competing) services can point to this naddr and ensure compatibility with the wider community
+  parametersNaddr TEXT, -- naddr to an event with the JSON Schema, managed by Brainstorm. Advantage: multiple (competing) services can point to this naddr and ensure compatibility with the wider community
 
   -- OPTIONAL, if we want to give the user the ability to save multiple parameter settings
-  name TEXT, 
+  name TEXT
 );
 
 -- defaults
