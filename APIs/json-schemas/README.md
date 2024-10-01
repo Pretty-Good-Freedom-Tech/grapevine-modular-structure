@@ -7,7 +7,7 @@ This is a compendium of the various json schemas that will be used across APIs.
 
 ### raw data source: nostr
 
-- basicFollowsInterpretationProtocol
+- [basicFollowsInterpretationProtocol](../../interpretation-engine/nostr/protocols/basicFollowsInterpretationProtocol.md)
 - basicMutesInterpretationProtocol
 - basicReportsInterpretationProtocol
 - expandedReportsInterpretationProtocol
