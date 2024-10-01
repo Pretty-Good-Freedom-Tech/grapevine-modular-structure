@@ -16,10 +16,10 @@ CREATE TABLE IF NOT EXISTS rawDataSourceCategories(
   DESCRIPTION TEXT
 );
 
-INSERT INTO rawDataSourceCategories [(slug, name)] VALUES ("nostr", "nostr"); 
-INSERT INTO rawDataSourceCategories [(slug, name)] VALUES ("Amazon", "Amazon");
-INSERT INTO rawDataSourceCategories [(slug, name)] VALUES ("chatGPT", "Chat GPT");
-INSERT INTO rawDataSourceCategories [(slug, name)] VALUES ("AI", "AI");
+INSERT INTO rawDataSourceCategories (slug, name) VALUES ('nostr', 'nostr'); 
+INSERT INTO rawDataSourceCategories (slug, name) VALUES ("Amazon", "Amazon");
+INSERT INTO rawDataSourceCategories (slug, name) VALUES ("chatGPT", "Chat GPT");
+INSERT INTO rawDataSourceCategories (slug, name) VALUES ("AI", "AI");
 
 -- coreTable3
 CREATE TABLE IF NOT EXISTS rawDataSources(
