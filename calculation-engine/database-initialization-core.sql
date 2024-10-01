@@ -5,8 +5,8 @@ GrapevineCalculationEngine_core.db
 -- coreTable1
 CREATE TABLE users(
   ID INT PRIMARY KEY NOT NULL,
-  pubkey VARCHAR(255) UNIQUE NOT NULL,
-);
+  pubkey VARCHAR(255) UNIQUE NOT NULL
+)
 
 -- coreTable2
 CREATE TABLE rawDataSourceCategories(
