@@ -20,9 +20,6 @@ This is a compendium of the various json schemas that will be used across APIs.
 
 ## APIs
 
-[Calculation / Interpretation API](../calculationInterpretationAPI.md) (request and response)
-
-[Endpoint API](../endpointAPI.md) (request and response)
-
-[Client API](../clientAPI.md) (request and response)
-
+- [Calculation / Interpretation API](../calculationInterpretationAPI.md) (request and response)
+- [Endpoint API](../endpointAPI.md) (request and response)
+- [Client API](../clientAPI.md) (request and response)
