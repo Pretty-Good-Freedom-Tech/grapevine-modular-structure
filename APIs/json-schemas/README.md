@@ -8,10 +8,10 @@ This is a compendium of the various json schemas that will be used across APIs.
 ### raw data source: nostr
 
 - [basicFollowsInterpretationProtocol](../../interpretation-engine/nostr/protocols/basicFollowsInterpretationProtocol.md)
-- basicMutesInterpretationProtocol
-- basicReportsInterpretationProtocol
-- expandedReportsInterpretationProtocol
-- brainstormNotSpamInterpretationProtocol
+- [basicMutesInterpretationProtocol](../../interpretation-engine/nostr/protocols/basicMutesInterpretationProtocol.md)
+- [basicReportsInterpretationProtocol](../../interpretation-engine/nostr/protocols/basicReportsInterpretationProtocol.md)
+- [expandedReportsInterpretationProtocol](../../interpretation-engine/nostr/protocols/expandedReportsInterpretationProtocol.md)
+- [brainstormNotSpamInterpretationProtocol](../../interpretation-engine/nostr/protocols/brainstormNotSpamInterpretationProtocol.md)
 
 ## grapeRank protocol parameter schemas
 
