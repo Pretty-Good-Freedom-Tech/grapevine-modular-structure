@@ -92,8 +92,8 @@ const processRequest = async (request) => {
       }
       return response
     */
-    default
-      return response = errorInterpretationProtocolNotRecognized() // may be moving this error to before the switch
+    default:
+      return errorInterpretationProtocolNotRecognized() // may be moving this error to before the switch
   }
 
   const response = {
