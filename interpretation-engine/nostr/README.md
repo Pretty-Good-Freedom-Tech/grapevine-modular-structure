@@ -45,7 +45,7 @@ const processRequest = async (request) => {
   }
 
   const universalInterpretationProtocolID = request.universalInterpretationProtocolID
-  const parameters = universalInterpretationProtocolID.paremeters
+  const parameters = universalInterpretationProtocolID.parameters
 
   // VALIDATION STEP 2. make sure universalInterpretationProtocolID is recognized; if not, return an error
   if (!aSupportedProtocols.includes(universalInterpretationProtocolID)) {
