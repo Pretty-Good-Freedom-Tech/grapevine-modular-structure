@@ -164,7 +164,7 @@ const returnMutesOnlyTable = async (params) => {
 
 ```
 const errorInvalidRequest = () => {
-  const response = { success: false; message: "The request object does not validate." }
+  const response = { success: false, message: "The request object does not validate." }
   \\ optional: include naddr or some other pointer to the json schema against which the request must validate
   return response;
 }
@@ -172,7 +172,7 @@ const errorInvalidRequest = () => {
 
 ```
 const errorInterpretationProtocolNotRecognized = () => {
-  const response = { success: false; message: "universalInterpretationProtocolID not recognized." }
+  const response = { success: false, message: "universalInterpretationProtocolID not recognized." }
   \\ optional: include a list of all recognized protocols
   return response;
 }
@@ -180,7 +180,7 @@ const errorInterpretationProtocolNotRecognized = () => {
 
 ```
 const errorInvalidParameters = () => {
-  const response = { success: false; message: "Parameters do not validate against the expected JSON Schema." }
+  const response = { success: false, message: "Parameters do not validate against the expected JSON Schema." }
   \\ optional: include naddr or some other pointer to the json schema against which the request must validate
   \\ another option: each governing function could have its own bespoke error response
   return response;
