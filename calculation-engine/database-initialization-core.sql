@@ -13,6 +13,8 @@ CREATE TABLE IF NOT EXISTS users(
   pubkey VARCHAR(255) UNIQUE NOT NULL
 );
 
+INSERT INTO users (pubkey) VALUES ('default'); 
+
 -- coreTable2
 CREATE TABLE IF NOT EXISTS rawDataSourceCategories(
   ID SERIAL PRIMARY KEY,
@@ -97,7 +99,7 @@ INSERT INTO grapeRankProtocols (slug, parametersJsonSchema ) VALUES ('basic5Star
 -- coreTable7
 CREATE TABLE IF NOT EXISTS parameters(
   ID SERIAL PRIMARY KEY,
-  userID INT UNIQUE NOT NULL,
+  userID INT NOT NULL,
   protocolCategoryTableName TEXT NOT NULL, -- 'interpretationProtocols' or 'grapeRankProtocols' or (coreTable5 or coreTable6) 
   protocolSlug TEXT NOT NULL, -- [protocolCategoryTableName].slug
   -- protocolID  INT NOT NULL, -- alternate to protocolSlug; [protocolCategoryTableName].id
@@ -112,11 +114,11 @@ CREATE TABLE IF NOT EXISTS parameters(
 );
 
 -- defaults
-INSERT INTO parameters (userID, protocolCategoryTableName, protocolSlug, obj ) VALUES ('default', 'interpretationProtocols', 'basicFollowsInterpretation', '{ "score": 1, "confidence": 0.05 }' );
-INSERT INTO parameters (userID, protocolCategoryTableName, protocolSlug, obj ) VALUES ('default', 'interpretationProtocols', 'basicMutesInterpretation', '{ "score": 0, "confidence": 0.10 }' );
-INSERT INTO parameters (userID, protocolCategoryTableName, protocolSlug, obj ) VALUES ('default', 'interpretationProtocols', 'basicReportsInterpretation', '{ "score": 0, "confidence": 0.20 }' );
-INSERT INTO parameters (userID, protocolCategoryTableName, protocolSlug, obj ) VALUES ('default', 'interpretationProtocols', 'expandedReportsInterpretation', '{ "reportTypesGroupA": { "reportTypes": [ "malware", "illegal", "spam", "impersonation" ], "score": 1, "confidence": 0.5 }, "reportTypesGroupB": { "reportTypes": [ "profanity", "nudity" ], "score": 1, "confidence": 0.02 }, "reportTypesGroupC": { "reportTypes": [ "other" ], "score": 1, "confidence": 0.1 }, }' );
-INSERT INTO parameters (userID, protocolCategoryTableName, protocolSlug, obj ) VALUES ('default', 'grapeRankProtocols', 'basicGrapevineNetwork', '{ "attenuation": 0.8, "rigor": 0.25, "defaultUserScore": 0, "defaultUserScoreConfidence": 0.01 }' );
+INSERT INTO parameters (userID, protocolCategoryTableName, protocolSlug, obj ) VALUES (1, 'interpretationProtocols', 'basicFollowsInterpretation', '{ "score": 1, "confidence": 0.05 }' );
+INSERT INTO parameters (userID, protocolCategoryTableName, protocolSlug, obj ) VALUES (1, 'interpretationProtocols', 'basicMutesInterpretation', '{ "score": 0, "confidence": 0.10 }' );
+INSERT INTO parameters (userID, protocolCategoryTableName, protocolSlug, obj ) VALUES (1, 'interpretationProtocols', 'basicReportsInterpretation', '{ "score": 0, "confidence": 0.20 }' );
+INSERT INTO parameters (userID, protocolCategoryTableName, protocolSlug, obj ) VALUES (1, 'interpretationProtocols', 'expandedReportsInterpretation', '{ "reportTypesGroupA": { "reportTypes": [ "malware", "illegal", "spam", "impersonation" ], "score": 1, "confidence": 0.5 }, "reportTypesGroupB": { "reportTypes": [ "profanity", "nudity" ], "score": 1, "confidence": 0.02 }, "reportTypesGroupC": { "reportTypes": [ "other" ], "score": 1, "confidence": 0.1 }, }' );
+INSERT INTO parameters (userID, protocolCategoryTableName, protocolSlug, obj ) VALUES (1, 'grapeRankProtocols', 'basicGrapevineNetwork', '{ "attenuation": 0.8, "rigor": 0.25, "defaultUserScore": 0, "defaultUserScoreConfidence": 0.01 }' );
 
 /*
 -- for new user Alice:
