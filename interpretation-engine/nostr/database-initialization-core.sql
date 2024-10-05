@@ -9,7 +9,7 @@ Note that coreTable1 (of the interpretation engine) and coreTable5_nostr (of the
 GrapevineNostrInterpretationEngine_core.db
 
 -- coreTable1
-CREATE TABLE interpretationProtocols(
+CREATE TABLE IF NOT EXISTS interpretationProtocols(
   ID SERIAL PRIMARY KEY,
   slug TEXT UNIQUE NOT NULL,
   universalInterpretationProtocolID TEXT NOT NULL, -- used to communicate with the nostr calculation engine; might be the same as the slug
