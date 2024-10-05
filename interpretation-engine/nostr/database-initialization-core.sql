@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS interpretationProtocols(
   name TEXT, -- optional
   title TEXT, -- optional
   description TEXT NOT NULL,
-  parametersJsonSchema TEXT, -- stringified json that describes the object that holds parameters that must be communicated across the API
+  parametersJsonSchema JSONB, -- stringified json that describes the object that holds parameters that must be communicated across the API
   // OPTIONAL: use naddr to point to the jsonSchema in place of the parametersJsonSchema column
   parametersJsonSchemaNaddr TEXT, -- naddr that points to an event in which the json schema is stored (? stringified and placed in content; ? kind)
 );
@@ -26,12 +26,6 @@ const mutesParameters = <see protocol page for json schema>
 const reportsParameters = <see protocol page for json schema>
 const expandedReportsParameters = <see protocol page for json schema>
 const brainstormNotSpamParameters = <see protocol page for json schema>
-  
-const sFollowsParameters = JSON.stringify(followsParameters)
-const sMutesParameters = JSON.stringify(mutesParameters)
-const sReportsParameters = JSON.stringify(reportsParameters)
-const sExpandedReportsParameters = JSON.stringify(expandedReportsParameters)
-const sBrainstormNotSpamParameters = JSON.stringify(brainstormNotSpamParameters)
   
 INSERT INTO interpretationProtocols (universalInterpretationProtocolID, parametersJsonSchema) VALUES ("basicFollowsInterpretationProtocol", sFollowsParameters);
 INSERT INTO interpretationProtocols (universalInterpretationProtocolID, parametersJsonSchema) VALUES ("basicMutesInterpretationProtocol", sMutesParameters);
