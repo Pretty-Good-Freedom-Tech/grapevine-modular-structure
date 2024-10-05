@@ -6,6 +6,8 @@ DROP TABLE IF EXISTS rawDataSourceCategories;
 DROP TABLE IF EXISTS rawDataSources;
 DROP TABLE IF EXISTS interpretationEngines;
 DROP TABLE IF EXISTS interpretationProtocols;
+DROP TABLE IF EXISTS grapeRankProtocols;
+DROP TABLE IF EXISTS parameters;
 
 -- coreTable1
 CREATE TABLE IF NOT EXISTS users(
@@ -117,7 +119,7 @@ CREATE TABLE IF NOT EXISTS parameters(
 INSERT INTO parameters (userID, protocolCategoryTableName, protocolSlug, obj ) VALUES (1, 'interpretationProtocols', 'basicFollowsInterpretation', '{ "score": 1, "confidence": 0.05 }' );
 INSERT INTO parameters (userID, protocolCategoryTableName, protocolSlug, obj ) VALUES (1, 'interpretationProtocols', 'basicMutesInterpretation', '{ "score": 0, "confidence": 0.10 }' );
 INSERT INTO parameters (userID, protocolCategoryTableName, protocolSlug, obj ) VALUES (1, 'interpretationProtocols', 'basicReportsInterpretation', '{ "score": 0, "confidence": 0.20 }' );
-INSERT INTO parameters (userID, protocolCategoryTableName, protocolSlug, obj ) VALUES (1, 'interpretationProtocols', 'expandedReportsInterpretation', '{ "reportTypesGroupA": { "reportTypes": [ "malware", "illegal", "spam", "impersonation" ], "score": 1, "confidence": 0.5 }, "reportTypesGroupB": { "reportTypes": [ "profanity", "nudity" ], "score": 1, "confidence": 0.02 }, "reportTypesGroupC": { "reportTypes": [ "other" ], "score": 1, "confidence": 0.1 }, }' );
+INSERT INTO parameters (userID, protocolCategoryTableName, protocolSlug, obj ) VALUES (1, 'interpretationProtocols', 'expandedReportsInterpretation', '{ "reportTypesGroupA": { "reportTypes": [ "malware", "illegal", "spam", "impersonation" ], "score": 1, "confidence": 0.5 }, "reportTypesGroupB": { "reportTypes": [ "profanity", "nudity" ], "score": 1, "confidence": 0.02 }, "reportTypesGroupC": { "reportTypes": [ "other" ], "score": 1, "confidence": 0.1 } }' );
 INSERT INTO parameters (userID, protocolCategoryTableName, protocolSlug, obj ) VALUES (1, 'grapeRankProtocols', 'basicGrapevineNetwork', '{ "attenuation": 0.8, "rigor": 0.25, "defaultUserScore": 0, "defaultUserScoreConfidence": 0.01 }' );
 
 /*
