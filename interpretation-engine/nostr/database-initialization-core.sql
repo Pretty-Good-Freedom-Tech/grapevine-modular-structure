@@ -3,10 +3,12 @@ Initialization of the core database for a Nostr Interpretation Engine
 
 coreTable1: interpretationProtocols
 Note that coreTable1 (of the interpretation engine) and coreTable5_nostr (of the calculation engine) are very similar, and that the slugs must match exactly. (Maybe replace slug with 'universalId' which is also a string, and may be a slug, but could also be a non-slug string e.g. a nostr event id, naddr, or some other hash?)
+
+coreTable2: users
 */
 
--- Create core database
-GrapevineNostrInterpretationEngine_core.db
+DROP TABLE IF EXISTS interpretationProtocols;
+DROP TABLE IF EXISTS users;
 
 -- coreTable1
 CREATE TABLE IF NOT EXISTS interpretationProtocols(
@@ -17,8 +19,9 @@ CREATE TABLE IF NOT EXISTS interpretationProtocols(
   description TEXT,
   parametersJsonSchema JSONB, -- stringified json that describes the object that holds parameters that must be communicated across the API
   -- OPTIONAL: use naddr to point to the jsonSchema in place of the parametersJsonSchema column
-  parametersJsonSchemaNaddr TEXT, -- naddr that points to an event in which the json schema is stored (? stringified and placed in content; ? kind)
+  parametersJsonSchemaNaddr TEXT -- naddr that points to an event in which the json schema is stored (? stringified and placed in content; ? kind)
 );
+
 
 const followsParameters = <see protocol page for json schema>
 const mutesParameters = <see protocol page for json schema>
@@ -32,3 +35,15 @@ INSERT INTO interpretationProtocols (universalInterpretationProtocolID, paramete
 INSERT INTO interpretationProtocols (universalInterpretationProtocolID, parametersJsonSchema) VALUES ('expandedReportsInterpretationProtocol', sExpandedReportsParameters );
 INSERT INTO interpretationProtocols (universalInterpretationProtocolID, parametersJsonSchema) VALUES ('brainstormNotSpamInterpretationProtocol', sBrainstormNotSpamParameters );
 
+-- coreTable2
+CREATE TABLE IF NOT EXISTS users (
+  ID SERIAL PRIMARY KEY,
+  pubkey TEXT NOT NULL,
+  follows JSONB,
+  followsCreatedAt INT,
+  followers JSONB,
+  mutes JSONB,
+  mutesCreatedAt INT,
+  mutedBy JSONB,
+  lastUpdated INT
+);
