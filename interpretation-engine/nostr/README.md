@@ -37,11 +37,11 @@ const processRequest = async (request) => {
   May want to move these steps into a different function
   ******************/
 
-  // VALIDATION STEP . Validate the request object. If invalid, return an error
+  // VALIDATION STEP 1. Validate the request object. If invalid, return an error
   const valid = validateRequest(request) // see below
   if (!valid) {
     // console.log(validate.errors)
-    return result = errorInvalidRequest() // option: incorporate validate.errors into the response
+    return errorInvalidRequest() // option: incorporate validate.errors into the response
   }
 
   const universalInterpretationProtocolID = request.universalInterpretationProtocolID
@@ -49,7 +49,7 @@ const processRequest = async (request) => {
 
   // VALIDATION STEP 2. make sure universalInterpretationProtocolID is recognized; if not, return an error
   if (!aSupportedProtocols.includes(universalInterpretationProtocolID)) {
-    return response = errorInterpretationProtocolNotRecognized(universalInterpretationProtocolID)
+    return errorInterpretationProtocolNotRecognized(universalInterpretationProtocolID)
   }
 
   // VALIDATION STEP 3. Validate parameters. If invalid, throw an error.
@@ -60,7 +60,7 @@ const processRequest = async (request) => {
   const valid2 = validateParameters(request) // see below
   if (!valid2) {
     // console.log(validate2.errors)
-    return result = errorInvalidParameters() // option: incorporate validate.errors into the response
+    return errorInvalidParameters() // option: incorporate validate.errors into the response
   }
   /*********** DONE WITH VALIDATION ***************/
   
