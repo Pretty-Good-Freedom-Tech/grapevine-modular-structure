@@ -33,9 +33,9 @@ const sReportsParameters = JSON.stringify(reportsParameters)
 const sExpandedReportsParameters = JSON.stringify(expandedReportsParameters)
 const sBrainstormNotSpamParameters = JSON.stringify(brainstormNotSpamParameters)
   
-INSERT INTO interpretationProtocols [(universalInterpretationProtocolID, parametersJsonSchema)] VALUES ("basicFollowsInterpretationProtocol", sFollowsParameters);
-INSERT INTO interpretationProtocols [(universalInterpretationProtocolID, parametersJsonSchema)] VALUES ("basicMutesInterpretationProtocol", sMutesParameters);
-INSERT INTO interpretationProtocols [(universalInterpretationProtocolID, parametersJsonSchema)] VALUES ("basicReportsInterpretationProtocol", sReportsParameters);
-INSERT INTO interpretationProtocols [(universalInterpretationProtocolID, parametersJsonSchema)] VALUES ("expandedReportsInterpretationProtocol", sExpandedReportsParameters );
-INSERT INTO interpretationProtocols [(universalInterpretationProtocolID, parametersJsonSchema)] VALUES ("brainstormNotSpamInterpretationProtocol", sBrainstormNotSpamParameters );
+INSERT INTO interpretationProtocols (universalInterpretationProtocolID, parametersJsonSchema) VALUES ("basicFollowsInterpretationProtocol", sFollowsParameters);
+INSERT INTO interpretationProtocols (universalInterpretationProtocolID, parametersJsonSchema) VALUES ("basicMutesInterpretationProtocol", sMutesParameters);
+INSERT INTO interpretationProtocols (universalInterpretationProtocolID, parametersJsonSchema) VALUES ("basicReportsInterpretationProtocol", sReportsParameters);
+INSERT INTO interpretationProtocols (universalInterpretationProtocolID, parametersJsonSchema) VALUES ("expandedReportsInterpretationProtocol", sExpandedReportsParameters );
+INSERT INTO interpretationProtocols (universalInterpretationProtocolID, parametersJsonSchema) VALUES ("brainstormNotSpamInterpretationProtocol", sBrainstormNotSpamParameters );
 
