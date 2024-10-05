@@ -1,11 +1,11 @@
 
 -- code written for postgres, testing on vercel 
 
-DROP TABLE IF EXISTS users
-DROP TABLE IF EXISTS rawDataSourceCategories
-DROP TABLE IF EXISTS rawDataSources
-DROP TABLE IF EXISTS interpretationEngines
-DROP TABLE IF EXISTS interpretationProtocols
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS rawDataSourceCategories;
+DROP TABLE IF EXISTS rawDataSources;
+DROP TABLE IF EXISTS interpretationEngines;
+DROP TABLE IF EXISTS interpretationProtocols;
 
 -- coreTable1
 CREATE TABLE IF NOT EXISTS users(
@@ -98,7 +98,7 @@ INSERT INTO grapeRankProtocols (slug, parametersJsonSchema ) VALUES ('basic5Star
 CREATE TABLE IF NOT EXISTS parameters(
   ID SERIAL PRIMARY KEY,
   userID INT UNIQUE NOT NULL,
-  protocolTableName TEXT NOT NULL, -- 'interpretationProtocols' or 'grapeRankProtocols' or (coreTable5 or coreTable6) 
+  protocolCategoryTableName TEXT NOT NULL, -- 'interpretationProtocols' or 'grapeRankProtocols' or (coreTable5 or coreTable6) 
   protocolSlug TEXT NOT NULL, -- [protocolCategoryTableName].slug
   -- protocolID  INT NOT NULL, -- alternate to protocolSlug; [protocolCategoryTableName].id
   
@@ -112,11 +112,11 @@ CREATE TABLE IF NOT EXISTS parameters(
 );
 
 -- defaults
-INSERT INTO protocolParameterSelections (userID, protocolCategoryTableName, protocolSlug, selectedParameters ) VALUES ('default', 'interpretationProtocols', 'basicFollowsInterpretation', '{ "score": 1, "confidence": 0.05 }' );
-INSERT INTO protocolParameterSelections (userID, protocolCategoryTableName, protocolSlug, selectedParameters ) VALUES ('default', 'interpretationProtocols', 'basicMutesInterpretation', '{ "score": 0, "confidence": 0.10 }' );
-INSERT INTO protocolParameterSelections (userID, protocolCategoryTableName, protocolSlug, selectedParameters ) VALUES ('default', 'interpretationProtocols', 'basicReportsInterpretation', '{ "score": 0, "confidence": 0.20 }' );
-INSERT INTO protocolParameterSelections (userID, protocolCategoryTableName, protocolSlug, selectedParameters ) VALUES ('default', 'interpretationProtocols', 'expandedReportsInterpretation', '{ "reportTypesGroupA": { "reportTypes": [ "malware", "illegal", "spam", "impersonation" ], "score": 1, "confidence": 0.5 }, "reportTypesGroupB": { "reportTypes": [ "profanity", "nudity" ], "score": 1, "confidence": 0.02 }, "reportTypesGroupC": { "reportTypes": [ "other" ], "score": 1, "confidence": 0.1 }, }' );
-INSERT INTO protocolParameterSelections (userID, protocolCategoryTableName, protocolSlug, selectedParameters ) VALUES ('default', 'grapeRankProtocols', 'basicGrapevineNetwork', '{ "attenuation": 0.8, "rigor": 0.25, "defaultUserScore": 0, "defaultUserScoreConfidence": 0.01 }' );
+INSERT INTO parameters (userID, protocolCategoryTableName, protocolSlug, obj ) VALUES ('default', 'interpretationProtocols', 'basicFollowsInterpretation', '{ "score": 1, "confidence": 0.05 }' );
+INSERT INTO parameters (userID, protocolCategoryTableName, protocolSlug, obj ) VALUES ('default', 'interpretationProtocols', 'basicMutesInterpretation', '{ "score": 0, "confidence": 0.10 }' );
+INSERT INTO parameters (userID, protocolCategoryTableName, protocolSlug, obj ) VALUES ('default', 'interpretationProtocols', 'basicReportsInterpretation', '{ "score": 0, "confidence": 0.20 }' );
+INSERT INTO parameters (userID, protocolCategoryTableName, protocolSlug, obj ) VALUES ('default', 'interpretationProtocols', 'expandedReportsInterpretation', '{ "reportTypesGroupA": { "reportTypes": [ "malware", "illegal", "spam", "impersonation" ], "score": 1, "confidence": 0.5 }, "reportTypesGroupB": { "reportTypes": [ "profanity", "nudity" ], "score": 1, "confidence": 0.02 }, "reportTypesGroupC": { "reportTypes": [ "other" ], "score": 1, "confidence": 0.1 }, }' );
+INSERT INTO parameters (userID, protocolCategoryTableName, protocolSlug, obj ) VALUES ('default', 'grapeRankProtocols', 'basicGrapevineNetwork', '{ "attenuation": 0.8, "rigor": 0.25, "defaultUserScore": 0, "defaultUserScoreConfidence": 0.01 }' );
 
 /*
 -- for new user Alice:
