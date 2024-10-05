@@ -1,11 +1,11 @@
 
 -- code written for postgres, testing on vercel 
-/*
-DROP TABLE table
-*/
 
--- Create core database
-GrapevineCalculationEngine_core.db
+DROP TABLE IF EXISTS users
+DROP TABLE IF EXISTS rawDataSourceCategories
+DROP TABLE IF EXISTS rawDataSources
+DROP TABLE IF EXISTS interpretationEngines
+DROP TABLE IF EXISTS interpretationProtocols
 
 -- coreTable1
 CREATE TABLE IF NOT EXISTS users(
@@ -27,10 +27,10 @@ INSERT INTO rawDataSourceCategories (slug, name) VALUES ('chatGPT', 'Chat GPT');
 INSERT INTO rawDataSourceCategories (slug, name) VALUES ('AI', 'AI');
 
 -- coreTable3
-/*
-This table maay not be needed; it may be left up to the interpretation engine to select individual data sources (eg specific relays). Alternatively, the interpretationProtocol could have 
-the OPTION to request particular data sources.
-*/
+
+-- This table maay not be needed; it may be left up to the interpretation engine to select individual data sources (eg specific relays). Alternatively, the interpretationProtocol could have 
+-- the OPTION to request particular data sources.
+
 CREATE TABLE IF NOT EXISTS rawDataSources(
   ID SERIAL PRIMARY KEY,
   slug TEXT UNIQUE NOT NULL,
@@ -73,9 +73,9 @@ INSERT INTO interpretationProtocols (slug, name, rawDataSourceCategorySlug ) VAL
 INSERT INTO interpretationProtocols (slug, name, rawDataSourceCategorySlug ) VALUES ('expandedReportsInterpretation', 'the Expanded Reports Interpretation', 'nostr' );
 INSERT INTO interpretationProtocols (slug, name, rawDataSourceCategorySlug ) VALUES ('standardGrapevineNetworkInterpretation', 'the Standard Grapevine Network Interpretation', 'nostr' ); -- this is a combo of follows, mutes, and reports all in one
 
-/*
-INSERT INTO interpretationProtocols (slug, name, rawDataSourceCategorySlug ) VALUES ('basicAmazonInterpretation', 'Amazon Product Ratings Interpretation', 'Amazon' );
-*/
+
+-- INSERT INTO interpretationProtocols (slug, name, rawDataSourceCategorySlug ) VALUES ('basicAmazonInterpretation', 'Amazon Product Ratings Interpretation', 'Amazon' );
+
 
 -- coreTable6
 CREATE TABLE IF NOT EXISTS grapeRankProtocols(
@@ -112,19 +112,21 @@ CREATE TABLE IF NOT EXISTS parameters(
 );
 
 -- defaults
-INSERT INTO protocolParameterSelections (userID, protocolCategoryTableName, protocolSlug, selectedParameters ) VALUES ('default', 'interpretationProtocols', 'basicFollowsInterpretation', '{ score: 1, confidence: 0.05 }' );
-INSERT INTO protocolParameterSelections (userID, protocolCategoryTableName, protocolSlug, selectedParameters ) VALUES ('default', 'interpretationProtocols', 'basicMutesInterpretation', '{ score: 0, confidence: 0.10 }' );
-INSERT INTO protocolParameterSelections (userID, protocolCategoryTableName, protocolSlug, selectedParameters ) VALUES ('default', 'interpretationProtocols', 'basicReportsInterpretation', '{ score: 0, confidence: 0.20 }' );
-INSERT INTO protocolParameterSelections (userID, protocolCategoryTableName, protocolSlug, selectedParameters ) VALUES ('default', 'interpretationProtocols', 'expandedReportsInterpretation', '{ reportTypesGroupA: { reportTypes: [ malware, illegal, spam, impersonation ], score: 1, confidence: 0.5 }, reportTypesGroupB: { reportTypes: [ profanity, nudity ], score: 1, confidence: 0.02 }, reportTypesGroupC: { reportTypes: [ other ], score: 1, confidence: 0.1 }, }' );
-INSERT INTO protocolParameterSelections (userID, protocolCategoryTableName, protocolSlug, selectedParameters ) VALUES ('default', 'grapeRankProtocols', 'basicGrapevineNetwork', '{ attenuation: 0.8, rigor: 0.25, defaultUserScore: 0, defaultUserScoreConfidence: 0.01 }' );
+INSERT INTO protocolParameterSelections (userID, protocolCategoryTableName, protocolSlug, selectedParameters ) VALUES ('default', 'interpretationProtocols', 'basicFollowsInterpretation', '{ "score": 1, "confidence": 0.05 }' );
+INSERT INTO protocolParameterSelections (userID, protocolCategoryTableName, protocolSlug, selectedParameters ) VALUES ('default', 'interpretationProtocols', 'basicMutesInterpretation', '{ "score": 0, "confidence": 0.10 }' );
+INSERT INTO protocolParameterSelections (userID, protocolCategoryTableName, protocolSlug, selectedParameters ) VALUES ('default', 'interpretationProtocols', 'basicReportsInterpretation', '{ "score": 0, "confidence": 0.20 }' );
+INSERT INTO protocolParameterSelections (userID, protocolCategoryTableName, protocolSlug, selectedParameters ) VALUES ('default', 'interpretationProtocols', 'expandedReportsInterpretation', '{ "reportTypesGroupA": { "reportTypes": [ "malware", "illegal", "spam", "impersonation" ], "score": 1, "confidence": 0.5 }, "reportTypesGroupB": { "reportTypes": [ "profanity", "nudity" ], "score": 1, "confidence": 0.02 }, "reportTypesGroupC": { "reportTypes": [ "other" ], "score": 1, "confidence": 0.1 }, }' );
+INSERT INTO protocolParameterSelections (userID, protocolCategoryTableName, protocolSlug, selectedParameters ) VALUES ('default', 'grapeRankProtocols', 'basicGrapevineNetwork', '{ "attenuation": 0.8, "rigor": 0.25, "defaultUserScore": 0, "defaultUserScoreConfidence": 0.01 }' );
 
+/*
 -- for new user Alice:
 INSERT INTO protocolParameterSelections (userPubkey, protocolCategoryTableName, protocolSlug, selectedParameters ) VALUES (<pk_Alice>, 'interpretationProtocols', 'basicFollowsInterpretation', '{ score: 1, confidence: 0.05 }' );
 
 -- when Alice updates her parameter selections:
 
 UPDATE protocolParameterSelections SET selectedParameters = newParams WHERE userID = AliceId AND protocolCategoryTableName = protocolCategoryTableName AND protocolSlug = protocolSlug
-  
+*/
+
 /*
 '{ attenuation: 0.8, rigor: 0.25, defaultUserScore: 0, defaultUserScoreConfidence: 0.01 }'
 '{ defaultProductScore: 0, defaultProductScoreConfidence: 0.05 }'
@@ -136,7 +138,7 @@ UPDATE protocolParameterSelections SET selectedParameters = newParams WHERE user
 /*
 REVIEW: coreTable4b and coreTable4c are completely deprecated and fully replaced with coreTable7 (I think)
 */
-
+/*
 -- coreTable4b
 CREATE TABLE IF NOT EXISTS defaultInterpretationProtocolSolutions(
   ID SERIAL PRIMARY KEY,
@@ -165,6 +167,5 @@ CREATE TABLE IF NOT EXISTS userInterpretationProtocolSolutions(
 
 INSERT INTO userInterpretationProtocolSolutions interpretationProtocolId, userId, name) VALUES (0, AlicdId, 'My Usual Brainstorm Follows Interpretation'); -- params: score = 1, confidence = 0.05
 INSERT INTO userInterpretationProtocolSolutions interpretationProtocolId, userId, name) VALUES (0, AlicdId, 'My Alternate Brainstorm Follows Interpretation'); -- params: score = 1, confidence = 0.08
-
-
+*/
 
