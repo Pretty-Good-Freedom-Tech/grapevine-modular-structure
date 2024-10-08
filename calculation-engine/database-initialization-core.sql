@@ -1,6 +1,7 @@
 
 -- code written for postgres, testing on vercel 
 
+DROP TABLE IF EXISTS ratingsTables;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS rawDataSourceCategories;
 DROP TABLE IF EXISTS rawDataSources;
@@ -8,6 +9,14 @@ DROP TABLE IF EXISTS interpretationEngines;
 DROP TABLE IF EXISTS interpretationProtocols;
 DROP TABLE IF EXISTS grapeRankProtocols;
 DROP TABLE IF EXISTS parameters;
+
+-- coreTableA
+CREATE TABLE IF NOT EXISTS ratingsTables(
+  ID SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL DEFAULT 'default',
+  pubkey VARCHAR(255) NOT NULL,
+  ratingsTable JSONB NOT NULL DEFAULT '{}'
+);
 
 -- coreTable1
 CREATE TABLE IF NOT EXISTS users(
