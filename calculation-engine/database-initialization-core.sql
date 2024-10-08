@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS ratingsTables(
   ID SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL DEFAULT 'default',
   pubkey VARCHAR(255) NOT NULL,
-  ratingsTable JSONB NOT NULL DEFAULT '{}'
+  ratingsTable JSONB NOT NULL DEFAULT '{}',
+  UNIQUE (name, pubkey)
 );
 
 -- coreTable1
