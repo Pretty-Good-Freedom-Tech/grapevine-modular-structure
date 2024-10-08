@@ -13,6 +13,8 @@ The Calculation Engine cache is broken up into several relational databases:
 
 CREATE CORE DATABASE: GrapevineCalculationEngine_core.db
 
+- coreTableA: ratingsTables - going to use this as a temporary replacement for userTable1 (ratings) and userTable2 (ratingsTables)
+
 - coreTable1: users -- all customers for this service (free and paying)
 - coreTable2: rawDataSourceCategories (e.g. nostrRelays, AI, eCommerce, socialMedia, etc)
 - coreTable3: rawDataSources (e.g. wss://grapevine.nostr1.com, chatGPT, Amazon, Twitter, etc)
