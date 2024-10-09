@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS ratingsTables(
   name VARCHAR(255) NOT NULL DEFAULT 'default',
   pubkey VARCHAR(255) NOT NULL,
   ratingsTable JSONB NOT NULL DEFAULT '{}',
+  dosStats JSONB NOT NULL DEFAULT '{}',
   UNIQUE (name, pubkey)
 );
 
