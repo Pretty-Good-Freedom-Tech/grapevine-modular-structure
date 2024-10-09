@@ -60,6 +60,22 @@ Sample set of parameters that are communicated via API from the Calculation Engi
 
 The JSON Schema, against which the parameters must validate.
 
+```
+required: ['follows', 'mutes', 'pubkeys', 'context']
+properties: {
+  follows: {
+    type: 'object',
+    required: [],
+    properties: {
+      score: {
+        type: 'number',
+        minValue: 0.0,
+        maxValue: 1.0
+      }
+    }
+  }
+```
+
 (work in progress)
 
 
