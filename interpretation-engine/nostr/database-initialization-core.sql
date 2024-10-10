@@ -7,8 +7,20 @@ Note that coreTable1 (of the interpretation engine) and coreTable5_nostr (of the
 coreTable2: users
 */
 
+DROP TABLE IF EXISTS ratingsTables;
 DROP TABLE IF EXISTS interpretationProtocols;
 DROP TABLE IF EXISTS users;
+
+-- coreTableA
+CREATE TABLE IF NOT EXISTS ratingsTables(
+  ID SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL DEFAULT 'default',
+  pubkey VARCHAR(255) NOT NULL,
+  ratingsTable JSONB NOT NULL DEFAULT '{}',
+  dosStats JSONB NOT NULL DEFAULT '{}',
+  lastUpdated INT NOT NULL DEFAULT 0,
+  UNIQUE (name, pubkey)
+);
 
 -- coreTable1
 CREATE TABLE IF NOT EXISTS interpretationProtocols(
