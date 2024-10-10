@@ -8,6 +8,7 @@ coreTable2: users
 */
 
 DROP TABLE IF EXISTS ratingsTables;
+DROP TABLE IF EXISTS customers;
 DROP TABLE IF EXISTS interpretationProtocols;
 DROP TABLE IF EXISTS users;
 
@@ -20,6 +21,12 @@ CREATE TABLE IF NOT EXISTS ratingsTables(
   dosStats JSONB NOT NULL DEFAULT '{}',
   lastUpdated INT NOT NULL DEFAULT 0,
   UNIQUE (name, pubkey)
+);
+
+-- coreTableB (optional)
+CREATE TABLE IF NOT EXISTS customers (
+  ID SERIAL PRIMARY KEY,
+  pubkey TEXT NOT NULL
 );
 
 -- coreTable1
