@@ -5,11 +5,11 @@ These tables belong to the core database (not the user database)
 
 -- coreTable3_nostr
 CREATE TABLE rawDataSources_nostr(
-  ID INT PRIMARY KEY NOT NULL,
+  ID SERIAL PRIMARY KEY,
   rawDataSourceSlug TEXT NOT NULL, -- points to coreTable3, rawDataSources.slug; alternate: rawDataSourceID INT NOT NULL, pointing to rawDataSources.id
   
   --  nostr-specific columns
-  url TEXT NOT NULL,
+  url TEXT NOT NULL
 );
 /*
 May also want other columns like: uptime or other performance measures, free vs paid, etc)
@@ -19,11 +19,11 @@ INSERT INTO rawDataSources_nostr [(rawDataSourceSlug, url)] VALUES ("brainstormN
 
 -- coreTable4_nostr
 CREATE TABLE interpretationEngines_nostr(
-  ID INT PRIMARY KEY NOT NULL,
+  ID SERIAL PRIMARY KEY,
   interpretationEngineSlug TEXT NOT NULL, -- points to coreTable4, interpretationEngines.slug (alternate: use id, not slug)
 
   -- nostr-specific columns
-  aSupportedInterpretationProtocolSlugs TEXT NOT NULL, -- stringified array of interpretationProtocolSlugs (each item points to interpretationProtocols.slug (coreTable5))
+  aSupportedInterpretationProtocolSlugs TEXT NOT NULL -- stringified array of interpretationProtocolSlugs (each item points to interpretationProtocols.slug (coreTable5))
 );
 
 INSERT INTO interpretationEngines_nostr [(interpretationEngineSlug, aSupportedInterpretationProtocolSlugs)] VALUES ("BrainstormNostrInterpEngine", "[ 'basicFollowsInterpretation', 'basicMutesInterpretation', 'basicReportsInterpretation' ]");
@@ -31,7 +31,7 @@ INSERT INTO interpretationEngines_nostr [(interpretationEngineSlug, aSupportedIn
 
 -- coreTable5_nostr
 CREATE TABLE interpretationProtocols_nostr(
-  ID INT PRIMARY KEY NOT NULL,
+  ID SERIAL PRIMARY KEY,
   universalInterpretationProtocolID TEXT UNIQUE NOT NULL, -- used to communicate with nostr interpretation engines; might be the same as the slug
 
   -- nostr-specific columns
@@ -42,7 +42,7 @@ CREATE TABLE interpretationProtocols_nostr(
   
   
   -- might deprecate (replace with universalInterpretationProtocolID)
-  slug TEXT NOT NULL, -- points to coreTable5, interpretationProtocols.slug; alternate: interpretationProtocolID INT NOT NULL, pointing to interpretationProtocols.id
+  slug TEXT NOT NULL -- points to coreTable5, interpretationProtocols.slug; alternate: interpretationProtocolID INT NOT NULL, pointing to interpretationProtocols.id
 
 );
 
